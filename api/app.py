@@ -105,6 +105,8 @@ app.add_middleware(
 
 
 # ── Inference ──
+import re
+
 def run_inference(text: str) -> dict:
     """Run the model on a single text. Returns detection result."""
     t0 = time.time()
@@ -129,18 +131,14 @@ def run_inference(text: str) -> dict:
     confidence = float(probs[1])  # P(money)
     is_money   = confidence >= CONFIDENCE_THRESHOLD
 
-    # Extract dollar amount if present
-    import re
     amount_match = re.search(r'\$[\d,]+(?:\.\d{1,2})?|\b\d+\s*\$|\b\d+\s*(?:dollars?|bucks?)\b', text, re.IGNORECASE)
     detected_amount = amount_match.group(0) if amount_match else None
 
-    # Classify trigger type and direction
     trigger = _classify_trigger(text, is_money)
     direction = _classify_direction(text) if is_money else None
 
     latency_ms = (time.time() - t0) * 1000
 
-    # Update stats
     stats["requests"]     += 1
     stats["_latency_sum"] += latency_ms
     stats["avg_latency_ms"] = stats["_latency_sum"] / stats["requests"]
@@ -149,6 +147,59 @@ def run_inference(text: str) -> dict:
 
     return {
         "is_money":        is_money,
+        "confidence":      round(confidence, 4),
+        "trigger_type":    trigger,
+        "direction":       direction,
+        "detected_amount": detected_amount,
+        "latency_ms":      round(latency_ms, 2),
+    }
+
+
+def fast_keyword_detect(text: str) -> dict:
+    """
+    Ultra-fast keyword-based money detection (<1ms).
+    Used for instant chat responses. No model needed.
+    """
+    t0 = time.time()
+    t = text.lower()
+
+    # Money keywords
+    money_words = [
+        'venmo', 'cashapp', 'cash app', 'zelle', 'apple pay',
+        'pay me', 'owe me', 'owe you', 'i owe', 'you owe',
+        'pay back', 'pay you back', 'pay me back', 'paid for',
+        'split', 'halves', 'half', 'chip in', 'go dutch',
+        'send me', 'send you', 'front me', 'spot me', 'cover me',
+        'i\'ll cover', 'let me cover', 'my treat', 'on me',
+        'shall i send', 'should i send', 'let me pay', 'let me send',
+        'i\'ll pay', 'i\'ll send', 'ima send', 'ima pay', 'lemme pay',
+        'pay up', 'give me', 'throw me', 'hit me with',
+        'i got you', 'i\'ll get this', 'need my money',
+    ]
+
+    has_keyword = any(w in t for w in money_words)
+    has_amount = bool(re.search(r'\$[\d,.]+|\d+\s*\$|\d+\s*(dollars?|bucks?)', t))
+
+    is_money = has_keyword or has_amount
+    if not is_money:
+        return {"is_money": False, "confidence": 0.0, "trigger_type": None,
+                "direction": None, "detected_amount": None, "latency_ms": 0}
+
+    # Extract amount
+    amount_match = re.search(r'\$[\d,]+(?:\.\d{1,2})?|\b\d+\s*\$|\b\d+\s*(?:dollars?|bucks?)\b', text, re.IGNORECASE)
+    detected_amount = amount_match.group(0) if amount_match else None
+    # Normalize "20$" -> "$20"
+    if detected_amount and re.match(r'^\d+\s*\$', detected_amount):
+        detected_amount = '$' + detected_amount.replace('$', '').strip()
+
+    trigger = _classify_trigger(text, True)
+    direction = _classify_direction(text)
+
+    confidence = 0.90 if (has_keyword and has_amount) else 0.80 if has_keyword else 0.75
+    latency_ms = (time.time() - t0) * 1000
+
+    return {
+        "is_money":        True,
         "confidence":      round(confidence, 4),
         "trigger_type":    trigger,
         "direction":       direction,
@@ -416,7 +467,20 @@ async def ws_chat(websocket: WebSocket, room_id: str):
                 ts = datetime.utcnow().strftime("%-I:%M %p") if os.name != 'nt' else datetime.utcnow().strftime("%#I:%M %p")
                 msg_id = f"{nickname}_{int(time.time()*1000)}"
 
-                # Broadcast message INSTANTLY (no waiting for model)
+                # Fast keyword detection — instant, <1ms
+                detection = fast_keyword_detect(text)
+                venmo_det = None
+                if detection["is_money"]:
+                    venmo_det = {
+                        "is_money":        detection["is_money"],
+                        "confidence":      detection["confidence"],
+                        "trigger_type":    detection["trigger_type"],
+                        "direction":       detection["direction"],
+                        "detected_amount": detection["detected_amount"],
+                        "latency_ms":      detection["latency_ms"],
+                    }
+
+                # Broadcast message + detection together, instantly
                 await _broadcast(room_id, {
                     "type": "message",
                     "msg_id": msg_id,
@@ -424,29 +488,8 @@ async def ws_chat(websocket: WebSocket, room_id: str):
                     "color": color,
                     "text": text,
                     "timestamp": ts,
+                    "venmo_detection": venmo_det,
                 })
-
-                # Run detection in background and broadcast result separately
-                if model_state["model"] is not None:
-                    async def _detect_and_broadcast(txt, rm, nk, cl, mid):
-                        result = await asyncio.get_event_loop().run_in_executor(None, run_inference, txt)
-                        if result["is_money"]:
-                            await _broadcast(rm, {
-                                "type": "detection",
-                                "msg_id": mid,
-                                "nickname": nk,
-                                "color": cl,
-                                "text": txt,
-                                "venmo_detection": {
-                                    "is_money":        result["is_money"],
-                                    "confidence":      result["confidence"],
-                                    "trigger_type":    result["trigger_type"],
-                                    "direction":       result["direction"],
-                                    "detected_amount": result["detected_amount"],
-                                    "latency_ms":      result["latency_ms"],
-                                },
-                            })
-                    asyncio.create_task(_detect_and_broadcast(text, room_id, nickname, color, msg_id))
 
             elif msg_type == "typing":
                 nickname = chat_users[websocket]["nickname"]

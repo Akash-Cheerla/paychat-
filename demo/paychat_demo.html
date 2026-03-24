@@ -704,7 +704,7 @@ let totalLatency = 0;
 let typingTimeout = null;
 let reconnectTimer = null;
 let lastTypingSent = 0;
-const bubbleMap = {};  // msg_id -> { bubble, wrap, nickname }
+
 
 // ── Join ──
 function joinChat() {
@@ -782,10 +782,6 @@ function handleMessage(msg) {
     case 'message':
       addChatMessage(msg);
       break;
-
-    case 'detection':
-      handleDetection(msg);
-      break;
   }
 }
 
@@ -806,7 +802,7 @@ function addSystemMessage(text) {
   scrollToBottom();
 }
 
-// ── Add chat message (instant, no detection yet) ──
+// ── Add chat message with instant detection ──
 function addChatMessage(msg) {
   const chat = document.getElementById('chat');
   const isMe = msg.nickname === myNickname;
@@ -848,63 +844,46 @@ function addChatMessage(msg) {
   row.appendChild(wrap);
   chat.appendChild(row);
 
-  // Store reference so detection event can find this bubble
-  if (msg.msg_id) {
-    bubbleMap[msg.msg_id] = { bubble, wrap, nickname: msg.nickname };
-  }
-
-  // Track stats
   messageCount++;
   document.getElementById('statMsgs').textContent = messageCount;
+
+  // Handle money detection (arrives with the message now)
+  const det = msg.venmo_detection;
+  if (det && det.is_money) {
+    bubble.classList.add('money-detected');
+    addMoneyTag(wrap, det.trigger_type, det.confidence, det.detected_amount);
+
+    detectionCount++;
+    document.getElementById('statDetections').textContent = detectionCount;
+
+    if (det.latency_ms) {
+      totalLatency += det.latency_ms;
+      document.getElementById('statLatency').textContent = `${Math.round(totalLatency / detectionCount)}ms`;
+    }
+
+    // Venmo popup direction logic:
+    //   "request" = sender wants money FROM others -> popup for recipients
+    //   "offer"   = sender offering to pay -> popup for sender
+    //   "split"   = everyone sees popup
+    const dir = det.direction || 'request';
+    let showPopup = false;
+
+    if (dir === 'request') {
+      showPopup = !isMe;
+    } else if (dir === 'offer') {
+      showPopup = isMe;
+    } else if (dir === 'split') {
+      showPopup = true;
+    }
+
+    if (showPopup) {
+      triggerVenmoSheet(msg.text, msg.nickname, det.detected_amount, det.confidence, det.trigger_type);
+    }
+  }
 
   // Hide typing
   document.getElementById('typing').classList.remove('show');
   scrollToBottom();
-}
-
-// ── Handle detection result (arrives after message) ──
-function handleDetection(msg) {
-  const det = msg.venmo_detection;
-  if (!det || !det.is_money) return;
-
-  // Find the bubble for this message
-  const ref = bubbleMap[msg.msg_id];
-  if (ref) {
-    ref.bubble.classList.add('money-detected');
-    addMoneyTag(ref.wrap, det.trigger_type, det.confidence, det.detected_amount);
-    scrollToBottom();
-  }
-
-  detectionCount++;
-  document.getElementById('statDetections').textContent = detectionCount;
-
-  if (det.latency_ms) {
-    totalLatency += det.latency_ms;
-    document.getElementById('statLatency').textContent = `${Math.round(totalLatency / detectionCount)}ms`;
-  }
-
-  // Venmo popup logic based on money direction:
-  //   "request" = sender wants money FROM others -> popup for recipients (not sender)
-  //   "offer"   = sender offering to pay -> popup for sender (not others)
-  //   "split"   = everyone should see popup
-  const isMe = msg.nickname === myNickname;
-  const dir = det.direction || 'request';
-  let showPopup = false;
-
-  if (dir === 'request') {
-    // "you owe me $25" -> popup for everyone EXCEPT the sender
-    showPopup = !isMe;
-  } else if (dir === 'offer') {
-    // "let me send you $20" / "do I owe you?" -> popup for the SENDER
-    showPopup = isMe;
-  } else if (dir === 'split') {
-    // "let's split it" -> popup for everyone
-    showPopup = true;
-  }
-
-  if (showPopup) {
-    triggerVenmoSheet(msg.text, msg.nickname, det.detected_amount, det.confidence, det.trigger_type);
-  }
 }
 
 // ── Send message ──
