@@ -267,6 +267,143 @@ async def ws_detect(websocket: WebSocket):
         logger.info(f"WS client disconnected: {websocket.client}")
 
 
+# ── Live Chat Room ──
+# Multi-user WebSocket chat with real-time money detection
+chat_rooms: dict[str, set[WebSocket]] = {}   # room_id -> set of connected sockets
+chat_users: dict[WebSocket, dict] = {}        # socket -> {room, nickname, color}
+
+COLORS = ["#00e5a0", "#7c5cfc", "#ff6b6b", "#ffd700", "#00b4d8", "#ff85a1", "#82e0aa", "#f0a500"]
+_color_idx = 0
+
+
+def _next_color():
+    global _color_idx
+    c = COLORS[_color_idx % len(COLORS)]
+    _color_idx += 1
+    return c
+
+
+async def _broadcast(room_id: str, message: dict, exclude: WebSocket = None):
+    """Send a message to all clients in a room."""
+    if room_id not in chat_rooms:
+        return
+    dead = []
+    for ws in chat_rooms[room_id]:
+        if ws == exclude:
+            continue
+        try:
+            await ws.send_text(json.dumps(message))
+        except Exception:
+            dead.append(ws)
+    for ws in dead:
+        chat_rooms[room_id].discard(ws)
+        chat_users.pop(ws, None)
+
+
+@app.websocket("/ws/chat/{room_id}")
+async def ws_chat(websocket: WebSocket, room_id: str):
+    """
+    Multi-user live chat room with real-time money detection.
+
+    Client sends:
+      { "type": "join", "nickname": "Akash" }
+      { "type": "message", "text": "you owe me $25" }
+
+    Server broadcasts to all clients in the room:
+      { "type": "join", "nickname": "Akash", "color": "#00e5a0", "members": [...] }
+      { "type": "message", "nickname": "Akash", "color": "#00e5a0", "text": "...",
+        "venmo_detection": { is_money, confidence, trigger_type, detected_amount, latency_ms },
+        "timestamp": "3:28 AM" }
+    """
+    await websocket.accept()
+
+    # Initialize room
+    if room_id not in chat_rooms:
+        chat_rooms[room_id] = set()
+    chat_rooms[room_id].add(websocket)
+    color = _next_color()
+    chat_users[websocket] = {"room": room_id, "nickname": "Anonymous", "color": color}
+
+    try:
+        while True:
+            raw = await websocket.receive_text()
+            try:
+                msg = json.loads(raw)
+            except json.JSONDecodeError:
+                await websocket.send_text(json.dumps({"error": "invalid JSON"}))
+                continue
+
+            msg_type = msg.get("type", "")
+
+            if msg_type == "join":
+                nickname = msg.get("nickname", "Anonymous").strip()[:20] or "Anonymous"
+                chat_users[websocket]["nickname"] = nickname
+                members = [chat_users[ws]["nickname"] for ws in chat_rooms[room_id] if ws in chat_users]
+                # Broadcast join to everyone
+                await _broadcast(room_id, {
+                    "type": "join",
+                    "nickname": nickname,
+                    "color": color,
+                    "members": members,
+                })
+                # Send color assignment back to joining user
+                await websocket.send_text(json.dumps({
+                    "type": "self",
+                    "nickname": nickname,
+                    "color": color,
+                    "members": members,
+                }))
+
+            elif msg_type == "message":
+                text = msg.get("text", "").strip()
+                if not text:
+                    continue
+
+                nickname = chat_users[websocket]["nickname"]
+                ts = datetime.utcnow().strftime("%-I:%M %p") if os.name != 'nt' else datetime.utcnow().strftime("%#I:%M %p")
+
+                # Run detection
+                detection = None
+                if model_state["model"] is not None:
+                    result = run_inference(text)
+                    detection = {
+                        "is_money":        result["is_money"],
+                        "confidence":      result["confidence"],
+                        "trigger_type":    result["trigger_type"],
+                        "detected_amount": result["detected_amount"],
+                        "latency_ms":      result["latency_ms"],
+                    }
+
+                # Broadcast to ALL clients in room (including sender)
+                await _broadcast(room_id, {
+                    "type": "message",
+                    "nickname": nickname,
+                    "color": color,
+                    "text": text,
+                    "venmo_detection": detection,
+                    "timestamp": ts,
+                })
+
+            elif msg_type == "typing":
+                nickname = chat_users[websocket]["nickname"]
+                await _broadcast(room_id, {
+                    "type": "typing",
+                    "nickname": nickname,
+                }, exclude=websocket)
+
+    except WebSocketDisconnect:
+        nickname = chat_users.get(websocket, {}).get("nickname", "Unknown")
+        chat_rooms.get(room_id, set()).discard(websocket)
+        chat_users.pop(websocket, None)
+        members = [chat_users[ws]["nickname"] for ws in chat_rooms.get(room_id, set()) if ws in chat_users]
+        await _broadcast(room_id, {
+            "type": "leave",
+            "nickname": nickname,
+            "members": members,
+        })
+        logger.info(f"Chat user '{nickname}' left room '{room_id}'")
+
+
 @app.get("/health")
 async def health():
     """Health check — returns model version and current accuracy."""
