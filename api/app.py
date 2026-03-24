@@ -134,8 +134,9 @@ def run_inference(text: str) -> dict:
     amount_match = re.search(r'\$[\d,]+(?:\.\d{1,2})?|\b\d+\s*\$|\b\d+\s*(?:dollars?|bucks?)\b', text, re.IGNORECASE)
     detected_amount = amount_match.group(0) if amount_match else None
 
-    # Classify trigger type
+    # Classify trigger type and direction
     trigger = _classify_trigger(text, is_money)
+    direction = _classify_direction(text) if is_money else None
 
     latency_ms = (time.time() - t0) * 1000
 
@@ -150,6 +151,7 @@ def run_inference(text: str) -> dict:
         "is_money":        is_money,
         "confidence":      round(confidence, 4),
         "trigger_type":    trigger,
+        "direction":       direction,
         "detected_amount": detected_amount,
         "latency_ms":      round(latency_ms, 2),
     }
@@ -171,6 +173,56 @@ def _classify_trigger(text: str, is_money: bool) -> Optional[str]:
     return "general_money"
 
 
+def _classify_direction(text: str) -> str:
+    """
+    Determine money flow direction from the sender's perspective.
+      'request'  = sender is asking for money  -> popup shows for recipients
+      'offer'    = sender is offering to pay    -> popup shows for sender
+      'split'    = mutual split                 -> popup shows for everyone
+    """
+    t = text.lower()
+
+    # Sender is OFFERING to pay / acknowledging they owe
+    offer_patterns = [
+        "i owe", "i'll pay", "i'll send", "let me pay", "let me send",
+        "i can pay", "i can send", "i'll venmo", "i'll cashapp", "i'll zelle",
+        "shall i send", "should i send", "want me to send", "want me to pay",
+        "do i owe", "how much do i owe", "i need to pay", "paying you",
+        "send you", "pay you back", "i'll cover", "let me cover",
+        "i got you", "my treat", "i'll get this", "on me",
+        "sending you", "lemme pay", "lemme send", "ima send", "ima pay",
+        "i can venmo", "i can cashapp", "i can zelle",
+    ]
+    for p in offer_patterns:
+        if p in t:
+            return "offer"
+
+    # Sender is REQUESTING money
+    request_patterns = [
+        "you owe", "owe me", "pay me", "send me", "pay up",
+        "venmo me", "cashapp me", "zelle me", "where's my",
+        "give me", "front me", "spot me", "cover me",
+        "you still owe", "pay me back", "need my money",
+        "hit me with", "throw me",
+    ]
+    for p in request_patterns:
+        if p in t:
+            return "request"
+
+    # Split / mutual
+    split_patterns = [
+        "split", "halves", "half", "divide", "each",
+        "chip in", "go dutch", "share the",
+    ]
+    for p in split_patterns:
+        if p in t:
+            return "split"
+
+    # Default: if it mentions a payment app generically, treat as offer
+    # (e.g. "venmo me your handle" is request, but "just venmo" is ambiguous)
+    return "request"
+
+
 # ── Request/Response schemas ──
 class DetectRequest(BaseModel):
     text: str
@@ -183,6 +235,7 @@ class DetectResponse(BaseModel):
     is_money: bool
     confidence: float
     trigger_type: Optional[str]
+    direction: Optional[str]
     detected_amount: Optional[str]
     latency_ms: float
     chat_id: Optional[str]
@@ -388,6 +441,7 @@ async def ws_chat(websocket: WebSocket, room_id: str):
                                     "is_money":        result["is_money"],
                                     "confidence":      result["confidence"],
                                     "trigger_type":    result["trigger_type"],
+                                    "direction":       result["direction"],
                                     "detected_amount": result["detected_amount"],
                                     "latency_ms":      result["latency_ms"],
                                 },

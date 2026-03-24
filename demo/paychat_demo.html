@@ -883,10 +883,26 @@ function handleDetection(msg) {
     document.getElementById('statLatency').textContent = `${Math.round(totalLatency / detectionCount)}ms`;
   }
 
-  // Venmo popup: only show to people who DIDN'T send the message
-  // If I said "you owe me $25", the OTHER person should see the Venmo popup, not me
+  // Venmo popup logic based on money direction:
+  //   "request" = sender wants money FROM others -> popup for recipients (not sender)
+  //   "offer"   = sender offering to pay -> popup for sender (not others)
+  //   "split"   = everyone should see popup
   const isMe = msg.nickname === myNickname;
-  if (!isMe) {
+  const dir = det.direction || 'request';
+  let showPopup = false;
+
+  if (dir === 'request') {
+    // "you owe me $25" -> popup for everyone EXCEPT the sender
+    showPopup = !isMe;
+  } else if (dir === 'offer') {
+    // "let me send you $20" / "do I owe you?" -> popup for the SENDER
+    showPopup = isMe;
+  } else if (dir === 'split') {
+    // "let's split it" -> popup for everyone
+    showPopup = true;
+  }
+
+  if (showPopup) {
     triggerVenmoSheet(msg.text, msg.nickname, det.detected_amount, det.confidence, det.trigger_type);
   }
 }
