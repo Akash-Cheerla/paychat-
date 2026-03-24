@@ -704,6 +704,7 @@ let totalLatency = 0;
 let typingTimeout = null;
 let reconnectTimer = null;
 let lastTypingSent = 0;
+const bubbleMap = {};  // msg_id -> { bubble, wrap, nickname }
 
 // ── Join ──
 function joinChat() {
@@ -781,6 +782,10 @@ function handleMessage(msg) {
     case 'message':
       addChatMessage(msg);
       break;
+
+    case 'detection':
+      handleDetection(msg);
+      break;
   }
 }
 
@@ -801,7 +806,7 @@ function addSystemMessage(text) {
   scrollToBottom();
 }
 
-// ── Add chat message ──
+// ── Add chat message (instant, no detection yet) ──
 function addChatMessage(msg) {
   const chat = document.getElementById('chat');
   const isMe = msg.nickname === myNickname;
@@ -843,30 +848,47 @@ function addChatMessage(msg) {
   row.appendChild(wrap);
   chat.appendChild(row);
 
+  // Store reference so detection event can find this bubble
+  if (msg.msg_id) {
+    bubbleMap[msg.msg_id] = { bubble, wrap, nickname: msg.nickname };
+  }
+
   // Track stats
   messageCount++;
   document.getElementById('statMsgs').textContent = messageCount;
 
-  // Handle money detection
-  const det = msg.venmo_detection;
-  if (det && det.is_money) {
-    setTimeout(() => {
-      bubble.classList.add('money-detected');
-      addMoneyTag(wrap, det.trigger_type, det.confidence, det.detected_amount);
-      triggerVenmoSheet(msg.text, msg.nickname, det.detected_amount, det.confidence, det.trigger_type);
-      detectionCount++;
-      document.getElementById('statDetections').textContent = detectionCount;
-    }, 300);
-
-    if (det.latency_ms) {
-      totalLatency += det.latency_ms;
-      document.getElementById('statLatency').textContent = `${Math.round(totalLatency / detectionCount)}ms`;
-    }
-  }
-
   // Hide typing
   document.getElementById('typing').classList.remove('show');
   scrollToBottom();
+}
+
+// ── Handle detection result (arrives after message) ──
+function handleDetection(msg) {
+  const det = msg.venmo_detection;
+  if (!det || !det.is_money) return;
+
+  // Find the bubble for this message
+  const ref = bubbleMap[msg.msg_id];
+  if (ref) {
+    ref.bubble.classList.add('money-detected');
+    addMoneyTag(ref.wrap, det.trigger_type, det.confidence, det.detected_amount);
+    scrollToBottom();
+  }
+
+  detectionCount++;
+  document.getElementById('statDetections').textContent = detectionCount;
+
+  if (det.latency_ms) {
+    totalLatency += det.latency_ms;
+    document.getElementById('statLatency').textContent = `${Math.round(totalLatency / detectionCount)}ms`;
+  }
+
+  // Venmo popup: only show to people who DIDN'T send the message
+  // If I said "you owe me $25", the OTHER person should see the Venmo popup, not me
+  const isMe = msg.nickname === myNickname;
+  if (!isMe) {
+    triggerVenmoSheet(msg.text, msg.nickname, det.detected_amount, det.confidence, det.trigger_type);
+  }
 }
 
 // ── Send message ──

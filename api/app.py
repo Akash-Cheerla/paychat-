@@ -361,28 +361,38 @@ async def ws_chat(websocket: WebSocket, room_id: str):
 
                 nickname = chat_users[websocket]["nickname"]
                 ts = datetime.utcnow().strftime("%-I:%M %p") if os.name != 'nt' else datetime.utcnow().strftime("%#I:%M %p")
+                msg_id = f"{nickname}_{int(time.time()*1000)}"
 
-                # Run detection
-                detection = None
-                if model_state["model"] is not None:
-                    result = run_inference(text)
-                    detection = {
-                        "is_money":        result["is_money"],
-                        "confidence":      result["confidence"],
-                        "trigger_type":    result["trigger_type"],
-                        "detected_amount": result["detected_amount"],
-                        "latency_ms":      result["latency_ms"],
-                    }
-
-                # Broadcast to ALL clients in room (including sender)
+                # Broadcast message INSTANTLY (no waiting for model)
                 await _broadcast(room_id, {
                     "type": "message",
+                    "msg_id": msg_id,
                     "nickname": nickname,
                     "color": color,
                     "text": text,
-                    "venmo_detection": detection,
                     "timestamp": ts,
                 })
+
+                # Run detection in background and broadcast result separately
+                if model_state["model"] is not None:
+                    async def _detect_and_broadcast(txt, rm, nk, cl, mid):
+                        result = await asyncio.get_event_loop().run_in_executor(None, run_inference, txt)
+                        if result["is_money"]:
+                            await _broadcast(rm, {
+                                "type": "detection",
+                                "msg_id": mid,
+                                "nickname": nk,
+                                "color": cl,
+                                "text": txt,
+                                "venmo_detection": {
+                                    "is_money":        result["is_money"],
+                                    "confidence":      result["confidence"],
+                                    "trigger_type":    result["trigger_type"],
+                                    "detected_amount": result["detected_amount"],
+                                    "latency_ms":      result["latency_ms"],
+                                },
+                            })
+                    asyncio.create_task(_detect_and_broadcast(text, room_id, nickname, color, msg_id))
 
             elif msg_type == "typing":
                 nickname = chat_users[websocket]["nickname"]
