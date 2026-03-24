@@ -1,0 +1,3242 @@
+[
+  {
+    "text": "fyi it was like $45 altogether",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "ok so split it with me? should be 80 dollars each, cashapp me",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "just split it with me around $100 each",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "LET'S DIVIDE THIS EVENLY, ABOUT ABOUT $12 A PERSON",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "can you share the spreadsheet",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "send me the invite link",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "my venmo is @handle",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "we need like 5 people",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "THROW IT ON VENMO WHEN U CAN",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "everyone owes 50 dollars for the group gift",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "happy birthday!! \ud83c\udf89",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "meet at gate 12",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "where are you parked lol",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "can you send me that link",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "so can you chip in around $35 for the supplies?",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "no way that actually happened",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "can you please just pay me back already",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "throw it on venmo when u can",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "i need to save more money",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "settle up with me when you can",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "you said you'd pay me back ages ago",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "zelle me if you have it",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "I'll zelle you 75 bucks tonight",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "can you please just pay me back already",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "literally just 5 bucks don't overthink it",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "do you have cashapp set up?",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "it's only 100 bucks no big deal",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "only $150.50 each, super reasonable",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "CHARGED 60 DOLLARS ON MY CARD FOR ALL OF US",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "let's split it evenly",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "I need to save more money",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "i'll send you the photos later",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "omg same I was thinking that tbh",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "are you coming to the party?",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "let's split the subscription \u2014 around $45 each, I'll venmo request",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "also no way that actually happened",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "also don't forget about the money you owe me",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "I'll forward you the email",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "the score was 3-1",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "hey I covered dinner, everyone venmo me 12 dollars",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "you around later?",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I'm saving up for a trip",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I'll forward you the email",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I'll forward you the email",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I need that money back asap rn",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "we can split the bill \u2014 your half is 25 bucks, send on venmo",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "just text me when you're ready",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "splitting the Airbnb about $12 ways",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "when are you gonna pay me back?",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "i'll meet you outside",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "text me at 4pm",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "my venmo is @handle",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "ok so still owe me around $120 from the grocery run, my venmo is @name",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "QUICK REMINDER: YOU OWE ME 20 BUCKS FOR THE LYFT",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "CAN YOU SHARE YOUR LOCATION",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "meet at gate 12",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I kept the receipt \u2014 you owe like $25",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "i'll send you the photos later",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "money doesn't grow on trees",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "let's cut costs and split the subscription",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "I'll send over the details soon",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "settle up with me when you can",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "prices are insane these days",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I'm short $35.99 can you help",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "i spent around $200 on your behalf",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "send me the invite link",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "i'm on my way",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "fyi I just got here",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "pay me back whenever you get a chance",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "remember you borrowed around $100? lmk when ur free to pay",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "text me at 4pm",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "happy birthday!! \ud83c\udf89",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I'm on a budget right now lol",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I'LL BE THERE AT 7",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "can you zelle me $12? we're splitting the Airbnb",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "are you coming to the party?",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "drop me a pin when you get there",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "only $80 each, super reasonable",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "my cashapp is $handle, send whenever",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "meet at gate 12",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "this place is packed",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I spent too much this month",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "pay me back the $120.99 you borrowed",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "I'll forward you the email",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I'm on a budget right now",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "can you share the spreadsheet",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "can you share the spreadsheet",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "send on cashapp",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "I'l send you the photos later",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "money doesn't grow on trees",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "this weather is insane",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I need to save more money tbh",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "CHARGED LIKE $10 ON MY CARD FOR ALL OF US",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "fyi I'll send it on venmo rn",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "just text me when you're ready",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "gas prices are ridiculous",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "yo can you send me that link",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "still haven't gotten my money back smh",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "just dm me on instagram",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "this weather is insane",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "your share was 200 dollars btw",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "zelle me if you have it tbh",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "I need $35.99 from you",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "DROP ME $20.50 FOR THE TICKETS",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "rent is going up again",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "where are you parked fr",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "let's do $40 each for the Uber",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "rent is going up again",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "Ill be there at 7",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "yo money doesn't grow on trees",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "send about $12 via cashapp or venmo either works",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "pay me back the like $80 you borrowed",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "still waiting on that about $75 you owe me bro tho",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "venmo me @username for the food",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "going halves on the pizza?",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "let's split it evenly",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "I'm on my way",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "ok so you owe me for the pizza last week",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "my cashapp is $handle, send whenever",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "i'm on a budget right now",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "SPLIT IT WITH ME? SHOULD BE $45.00 EACH, CASHAPP ME",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "bro you literally owe me like 75 dollars",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "send around $50 via cashapp or venmo either works",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "mine was about $35 yours was more",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "so that cost me around $30 total",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "I'M ON A BUDGET RIGHT NOW",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "just got paid finally",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "what time are we meeting",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "request me on venmo, I'll approve",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "let's do 12 dollars each for the Uber",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "I'm so tired honestly",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "meet at gate 12",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "it's only $150 no big deal",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "omg same I was thinking that",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "this place is packed",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "still owe me like $20 from the grocery run, my venmo is @name",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "you can cashapp me",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "just a heads up you still owe me",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "gas prices are ridiculous",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I'll meet you outside",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "hey gas prices are ridiculous",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "drop me $60 for the tickets",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "also let's do like $35 each for the Uber",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "no way that actually happened",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "let's cut costs and split the subscription",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "ok I'll be there in 10",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "zelle me if you have it",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "just venmo me the $25.99",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "splitting the groceries 15 dollars ways tonight",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "btw happy birthday!! \ud83c\udf89",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "going halves on the pizza?",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "just send 80 bucks whenever",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "no way that actually happened",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "prices are insane these days",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "when are you gonna pay me back?",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "lmao that's hilarious asap",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I'M ON MY WAY",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "text me at 4pm asap",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "around $40 and we're square",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "I'll forward you the email",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "we can split the cost tho",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "my cashapp is $handle, send whenever",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "I'll forward you the email",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "forward me that email",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "my cashapp is $handle, send whenever",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "hit me with like $75",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "drop me a pin when you get there",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "it's only 30 dollars no big deal",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "just a heads up you still owe me",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "the score was 3-1",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "do you have cashapp set up?",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "can you send me $80.00 real quick",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "just send like $200 whenever",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "hey drop it to my cashapp",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "you owe me $60, just cashapp me when you can",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "sent you $200 on venmo, check it",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "did you see that game last night",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "fyi the score was 3-1",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "pay me back whenever you get a chance lol",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "this place is packed",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I paid for everything last night, you owe me",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "splitting the dinner check \u2014 you're 25 dollars",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "yo I'll send over the details soon",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "splitting the Airbnb 30 dollars ways",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "settle up with me when you can",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "zelle me if you have it haha",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "my number is 555-1234",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "i calculated your share \u2014 it's about $5",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "CAN YOU SEND ME THE DOC",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I spent $80.00 on your behalf",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "remember you borrowed like $60? lmk when ur free to pay",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "just text me when you're ready",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "going halves on the pizza?",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "I need 150 bucks from you",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "I'm so tired honestly",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "PRICES ARE INSANE THESE DAYS",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "can we go halves on this?",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "I'm at table 8",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I'll cashapp you back tonight",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "also split the tab with me?",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "can you send me that link",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "hey knocked $150.00 off the total already",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "does anyone use apple pay? venmo me otherwise",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "I spent too much this month",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "charged $10.99 on my card for all of us",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "I need to save more money",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "let's split the bill tonight",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "splitting the hotel room 3 ways so $35 each tho",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "I'll send over the details soon",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "split it with me? should be 30 dollars each, cashapp me",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "just text me when you're ready",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "ok so I'll zelle you $30.50 tonight",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "we're looking at about $100 each",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "hey don't forget you owe me 25 bucks",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "I need to save more money ngl",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "lmao that's hilarious",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "only 50 bucks each, super reasonable",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "I need $50.00 from you",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "send me around $40 and we're even",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "text me at 4pm",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "can you zelle me around $12? we're splitting the Airbnb",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "just zelle the money over",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "drop it to my cashapp",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "I spent $5 on your behalf",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "so we split the utility bill evenly right?",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "what's the WiFi password",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "just got paid finally",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "what's the address again haha",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "MY NUMBER IS 555-1234",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "no way that actually happened",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "so divide the bill \u2014 your share is about $75",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "also that'll be $25.00",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "he said what?!",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "my venmo is @handle",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "I'm on my way",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "happy birthday!! \ud83c\udf89",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "ok so still waiting on that about $5 you owe me bro",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "you can cashapp me",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "let's do around $120 each for the Uber",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "you got the address I sent?",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "this place is packed",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "also it was like 10 bucks altogether",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "also splitting the groceries $40.00 ways tonight",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "what time are we meeting",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "what time does it start",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "btw we can split the bill \u2014 your half is $200.00, send on venmo",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "forward me that email",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "this weather is insane",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "ok I'll be there in 10",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I need to save more money haha",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "that movie was so good",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "gas prices are ridiculous",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "that movie was so good",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "you owe me like $12, just cashapp me when you can fr",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "yo we need like 5 people",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "hey let's divide this evenly, about $75 a person",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "I COVERED YOU LAST TIME, YOU OWE ME ONE",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "you owe me 12 dollars for the Uber, venmo: @handle",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "I'm saving up for a trip",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "split it with me? should be $10.50 each, cashapp me",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "send me the invite link",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "YOU OWE ME FOR THE PIZZA LAST WEEK",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "I'll send over the details soon rn",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "LET'S CUT COSTS AND SPLIT THE SUBSCRIPTION",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "YOU BEEN OWING ME 100 DOLLARS SINCE FOREVER",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "it's on foor 3",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "so you owe me about $60 for the Uber, venmo: @handle",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "so remember you borrowed about $100? lmk when ur free to pay",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "quick reminder: you owe me 60 bucks for the Lyft",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "I'm saving up for a trip rn",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "what are you up to tonight tbh",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "bro you literally owe me like 20 bucks",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "I'm short $45 can you help",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "I paid around $120 for parking, split it with me? lol",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "so I'm on a budget right now",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "that movie was so good lol",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "let's split the bill tonight",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "literally just about $12 don't overthink it fr",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "my venmo is @handle",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "btw what's the address again",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "quick reminder: you owe me $80 for the lyft",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "what time are we meeting",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "still owe me 200 bucks from the grocery run, my venmo is @name",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "we can split the bill \u2014 your half is $80, send on venmo",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "just dm me on instagram",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "can you share your location",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I'm on a budget right now",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I'll send over the details soon",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "split the tab with me?",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "you got the address I sent?",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "we're splitting the cable bill right?",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "it's on floor 3",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I SPENT TOO MUCH THIS MONTH",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "we're looking at $200 each",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "drop me a pin when you get there",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "forward me that email",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I just got here",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I just got here",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "this place is packed",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "fyi can you zelle me $15.50? we're splitting the Airbnb",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "I'm out around $150 because of last night",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "ok I'll be there in 10",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "JUST VENMO ME THE ABOUT $20",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "can you send me that link",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "also throw it on venmo when u can",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "what's the WFi password",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "can you send me that link",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "SEND ON CASHAPP",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "drop it to my cashapp",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "we can split the cost",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "you got the address I sent? lol",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "it was like $75.50 altogether",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "so send me the invite link",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "gas prices are ridiculous",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "yo rent is going up again",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "can you send me the doc",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I need that money back asap",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "also are you coming to the party?",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "just txt me when you're ready",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I'll zelle you like $60 tonight tbh",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "remember you borrowed about $80? lmk when ur free to pay tbh",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "my number is 555-1234",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "ok so hit me with $25",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "we can split the bill \u2014 your half is 35 dollars, send on venmo",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "omg same I was thinking that",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "i's on floor 3",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I'm on a budget right now",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "should we split dinner?",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "I paid for everything last night, you owe me",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "I'll send over the details soon rn",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "we should split rent this month",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "we're splitting everything down the middle",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "also I'll meet you outside",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "i'll forward you the email",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "no way that actually happened",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "lmao that's hilarious",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "we split the utility bill evenly right?",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "I only have venmo and cashapp",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "THAT'LL BE $50",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "do you have cashapp set up?",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "yo I'm out 15 dollars because of last night",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "divide the bill \u2014 your share is about $80",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "also omg same I was thinking that",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "this place is packed",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "literally just around $50 don't overthink it",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "I'm out $15 because of last night",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "send it through venmo",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "what's the WiFi password",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "let's split the subscription \u2014 60 dollars each, I'll venmo request",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "can you share the spreadsheet",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "money doesn't grow on trees",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I spent too much this month",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "did you see that game last night",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "can you share your location",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "fyi mine was around $200 yours was more",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "everyone owes $75.00 for the group gift",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "what are you up to tonight",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "hey where are you parked",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I CALCULATED YOUR SHARE \u2014 IT'S $100.00",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "where are you parked haha",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "your share was 75 dollars btw",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "splitting the hotel room 3 ways so about $45 each",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "I'm saving up for a trip",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "this weather is insane",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "money doesn't grow on trees",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "DON'T FORGET ABOUT THE MONEY YOU OWE ME",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "SEND ME THE INVITE LINK",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "send me like $200 and we're even",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "I spent 15 bucks on your behalf",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "money doesn't grow on trees",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "hey hey I covered dinner, everyone venmo me around $40",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "settle up with me when you can",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "I spent too much this month",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "still owe me about $80 from the grocery run, my venmo is @name",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "splitting the dinner check \u2014 you're 200 dollars",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "fyi venmo me @username for the food",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "you said you'd pay me back ages ago",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "just got paid finally tho",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I'll venmo you later fr",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "I'll venmo you later",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "i'm so broke lately",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "can you share the spreadsheet",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "can you share the spreadsheet",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "just zelle the money over",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "gas prices are ridiculous",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "EVERYONE OWES $150.00 FOR THE GROUP GIFT",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "what time are we meeting",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "so I'm so tired honestly",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I'm at table 8",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I'll send over the details soon",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "also you can cashapp me",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "drop it to my cashapp",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "throw it on venmo when u can",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "i'll send you the photos later",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I only have venmo and cashapp",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "gas prices are ridiculous",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "hey what are you up to tonight",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "send it through venmo",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "rent is going up again tho",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "yo I just got here",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I need about $200 from you",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "QUICK REMINDER: YOU OWE ME $200 FOR THE LYFT",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "when are you gonna pay me back?",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "hey don't forget you owe me around $60",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "drop it to my cashapp",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "going halves on the pizza?",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "it's on floor 3",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "yo can you send me the doc",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "you owe me 15 bucks for the Uber, venmo: @handle",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "what time does it start tho",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "charged $100 on my card for all of us",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "omg same I was thinking that",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I'll meet you outside fr",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I need to save more money",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "cashapp me $60?",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "the score was 3-1",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "my number is 555-1234",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "what are you up to tonight fr",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "drop me a pin when you get there",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "ok so the score was 3-1",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "what time does it start",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "still owe me 12 dollars from the grocery run, my venmo is @name",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "what's the WiFi password",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "yo money doesn't grow on trees",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "just text me when you're ready",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I'll send you the photos later",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "we're splitting the cable bill right?",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "just dm me on instagram",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I need to save more money",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "ok so can you share the spreadsheet",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "what time does it start",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "happy birthday!! \ud83c\udf89 rn",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I'm so tired honetly",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "just got paid finally",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "also what's the address again",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "i'm at table 8",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "money doesn't grow on trees",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "i spent too much this month",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "just send 80 bucks whenever",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "throw it on venmo when u can",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "gas prices are ridiculous",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "ARE YOU COMING TO THE PARTY?",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "rent is going up again",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I'll send you the photos later",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "you owe me $150 for the Uber, venmo: @handle",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "can you please just pay me back already",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "my bill was 200 dollars what was yours tho",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "btw I'm short about $45 can you help",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "literally just like $60 don't overthink it",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "quick reminder: you owe me 40 dollars for the Lyft tbh",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "your portion of the bill is around $30",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "you can cashapp me",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "bro you literally owe me like $60",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "ok I'll be there in 10",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "fyi should we split dinner?",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "MONEY DOESN'T GROW ON TREES",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "let's split the subscription \u2014 80 dollars each, I'll venmo request",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "can you share your location",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "just dm me on instagram",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "zelle me if you have it",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "request me on venmo, I'll approve",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "I'm so broke lately",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "you still owe me from the concert",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "when are you gonna pay me back?",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "fyi can you chip in 20 dollars for the supplies?",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "the score was 3-1",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "don't forget about the money you owe me",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "I'll be there at 7",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "gas prices are ridiculous",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "just split it with me 25 bucks each",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "I'll be there at 7",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "he said what?!",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "that'll be 60 dollars",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "I'LL FORWARD YOU THE EMAIL",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "pay me back the 30 bucks you borrowed",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "hey do you have cashapp set up?",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "I just got here",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "we need like 5 people",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "what's your venmo handle?",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "you around later?",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "ok so just got paid finally",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "drop me a pin when you get there",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "request me on venmo, I'll approve",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "that'll be like $50",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "what's the WiFi password",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "ok I'll be there in 10",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "MEET AT GATE 12",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "what are you up to tonight",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "YOU SAID YOU'D PAY ME BACK AGES AGO",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "this weather is insane",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "venmo me about $75 whenever",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "you owe me 15 dollars, just cashapp me when you can",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "we should split rent this month",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "I spent too much this month",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I spent too much this month",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "THAT MOVIE WAS SO GOOD",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "can you please just pay me back already",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "i'll meet you outside",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "let's cut costs and split the subscription",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "the score was 3-1",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "just split it with me like $40 each",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "hey i covered the tip, that's 35 bucks from you",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "hey I covered the tip, that's $45.99 from you",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "I'm saving up for a trip tho",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "send it through venmo",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "I'm saving up for a trip",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "my number is 555-1234",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "you owe me 15 dollars for the uber, venmo: @handle",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "drop me $5 for the tickets",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "zelle me if you have it",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "we're looking at $60.99 each tbh",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "drop me a pin when you get there",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "it adds up to like $30 with tax",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "I calculated your share \u2014 it's 15 dollars",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "so splitting the dinner check \u2014 you're like $35",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "rent is going up again",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "fyi where are you parked",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "ok so are you coming to the party?",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "so can we go halves on this?",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "quick reminder: you owe me about $25 for the Lyft",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "quick reminder: you owe me around $15 for the Lyft",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "are you coming to the party?",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I'll meet you outside",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "drop it to my cashapp ngl",
+    "label": 1,
+    "category": "venmo_cashapp",
+    "split": "test"
+  },
+  {
+    "text": "can you share the spreadsheet",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "I kept the receipt \u2014 you owe 120 bucks",
+    "label": 1,
+    "category": "owing_debt",
+    "split": "test"
+  },
+  {
+    "text": "i just got here",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "can you share your location",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "prices are insane these days",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "what's the WiFi password lol",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "he said what?!",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "it's on floor 3",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "also let's do 80 dollars each for the Uber",
+    "label": 1,
+    "category": "bill_splitting",
+    "split": "test"
+  },
+  {
+    "text": "I'm on my way",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "no way that actually happened",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "that'll be about $120",
+    "label": 1,
+    "category": "direct_amount",
+    "split": "test"
+  },
+  {
+    "text": "you owe me $200, just cashapp me when you can",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "i'll be there at 7",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  },
+  {
+    "text": "let's split the subscription \u2014 $10.00 each, I'll venmo request rn",
+    "label": 1,
+    "category": "mixed",
+    "split": "test"
+  },
+  {
+    "text": "he said what?!",
+    "label": 0,
+    "category": "not_money",
+    "split": "test"
+  }
+]

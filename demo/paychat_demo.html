@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PayChat — Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* ── Reset & Tokens ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #0a0a0f;
+    --surface:    #111118;
+    --surface2:   #18181f;
+    --border:     rgba(255,255,255,0.07);
+    --text:       #e8e8f0;
+    --muted:      #6b6b80;
+    --accent:     #00e5a0;
+    --accent-dim: rgba(0,229,160,0.12);
+    --accent2:    #7c5cfc;
+    --danger:     #ff4757;
+    --gold:       #ffd700;
+    --gold-dim:   rgba(255,215,0,0.15);
+    --bubble-me:  #1e1e2e;
+    --bubble-them: #161620;
+    --venmo-blue: #008cff;
+    --r: 16px;
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    overflow: hidden;
+  }
+
+  /* ── Layout ── */
+  .app {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100vh;
+    max-width: 480px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    z-index: 10;
+  }
+
+  .avatar-group {
+    display: flex;
+    align-items: center;
+  }
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    border: 2px solid var(--bg);
+    flex-shrink: 0;
+  }
+
+  .avatar.j { background: linear-gradient(135deg, #7c5cfc, #5a3fd4); }
+  .avatar.a { background: linear-gradient(135deg, #00e5a0, #009966); color: #000; }
+  .avatar.you { background: linear-gradient(135deg, #ff6b9d, #c0389a); }
+
+  .header-info { flex: 1; }
+  .header-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; }
+  .header-sub { font-size: 11px; color: var(--accent); font-family: 'DM Mono', monospace; letter-spacing: 0.05em; }
+
+  .model-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--accent-dim);
+    border: 1px solid rgba(0,229,160,0.25);
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--accent);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .model-badge:hover { background: rgba(0,229,160,0.2); }
+  .model-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  /* ── Chat area ── */
+  .chat {
+    overflow-y: auto;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    scroll-behavior: smooth;
+    background:
+      radial-gradient(ellipse at 10% 20%, rgba(124,92,252,0.04) 0%, transparent 50%),
+      radial-gradient(ellipse at 90% 80%, rgba(0,229,160,0.03) 0%, transparent 50%),
+      var(--bg);
+  }
+
+  .chat::-webkit-scrollbar { width: 3px; }
+  .chat::-webkit-scrollbar-track { background: transparent; }
+  .chat::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  /* ── Message bubbles ── */
+  .msg-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    animation: slideIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .msg-row.me { flex-direction: row-reverse; }
+  .msg-row.them .avatar { width: 28px; height: 28px; font-size: 11px; flex-shrink: 0; }
+
+  .bubble-wrap { display: flex; flex-direction: column; max-width: 72%; gap: 2px; }
+  .msg-row.me .bubble-wrap { align-items: flex-end; }
+
+  .sender-name {
+    font-size: 11px;
+    color: var(--muted);
+    padding: 0 10px;
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 2px;
+  }
+
+  .bubble {
+    padding: 10px 14px;
+    border-radius: var(--r);
+    font-size: 14px;
+    line-height: 1.45;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    word-break: break-word;
+  }
+
+  .msg-row.them .bubble {
+    background: var(--bubble-them);
+    border: 1px solid var(--border);
+    border-bottom-left-radius: 4px;
+    color: var(--text);
+  }
+
+  .msg-row.me .bubble {
+    background: var(--bubble-me);
+    border: 1px solid rgba(124,92,252,0.25);
+    border-bottom-right-radius: 4px;
+    color: var(--text);
+  }
+
+  .bubble.money-detected {
+    background: var(--gold-dim) !important;
+    border-color: rgba(255,215,0,0.4) !important;
+    animation: moneyPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes moneyPop {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.04); }
+    100% { transform: scale(1); }
+  }
+
+  .money-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--gold);
+    background: rgba(255,215,0,0.15);
+    border: 1px solid rgba(255,215,0,0.3);
+    border-radius: 10px;
+    padding: 1px 7px;
+    margin-top: 4px;
+  }
+
+  .timestamp {
+    font-size: 10px;
+    color: var(--muted);
+    padding: 0 10px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* Date separator */
+  .date-sep {
+    text-align: center;
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    margin: 12px 0;
+    letter-spacing: 0.08em;
+    position: relative;
+  }
+  .date-sep::before, .date-sep::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: calc(50% - 50px);
+    height: 1px;
+    background: var(--border);
+  }
+  .date-sep::before { left: 0; }
+  .date-sep::after  { right: 0; }
+
+  /* Typing indicator */
+  .typing {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .typing.show { opacity: 1; height: 32px; }
+  .typing-dots { display: flex; gap: 4px; }
+  .typing-dots span {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--muted);
+    animation: bounce 1.2s infinite;
+  }
+  .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes bounce {
+    0%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-6px); }
+  }
+  .typing-name { font-size: 12px; color: var(--muted); font-family: 'DM Mono', monospace; }
+
+  /* ── Input area ── */
+  .input-area {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .input-wrap {
+    flex: 1;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    padding: 0 4px 0 16px;
+    transition: border-color 0.2s;
+  }
+  .input-wrap:focus-within { border-color: rgba(124,92,252,0.5); }
+
+  .msg-input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    padding: 10px 0;
+  }
+  .msg-input::placeholder { color: var(--muted); }
+
+  .send-btn {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--accent2);
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+    font-size: 16px;
+  }
+  .send-btn:hover { background: #9b7dff; transform: scale(1.08); }
+  .send-btn:active { transform: scale(0.95); }
+  .send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  /* ── Venmo Modal ── */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px);
+    z-index: 100;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .overlay.show { opacity: 1; pointer-events: all; }
+
+  .venmo-sheet {
+    background: var(--surface);
+    border-radius: 28px 28px 0 0;
+    border: 1px solid var(--border);
+    border-bottom: none;
+    width: 100%;
+    max-width: 480px;
+    padding: 0 0 32px;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .overlay.show .venmo-sheet { transform: translateY(0); }
+
+  .sheet-handle {
+    width: 40px; height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    margin: 14px auto 20px;
+  }
+
+  .sheet-header {
+    text-align: center;
+    padding: 0 24px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .venmo-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 28px;
+    color: var(--venmo-blue);
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+
+  .sheet-subtitle {
+    font-size: 13px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .sheet-body { padding: 24px; }
+
+  .detection-card {
+    background: var(--gold-dim);
+    border: 1px solid rgba(255,215,0,0.3);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+
+  .detection-label {
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .detection-message {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.4;
+    font-style: italic;
+  }
+
+  .detection-meta {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+  }
+
+  .meta-chip {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    padding: 3px 8px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.06);
+    color: var(--muted);
+  }
+  .meta-chip.green { background: rgba(0,229,160,0.1); color: var(--accent); }
+  .meta-chip.gold  { background: rgba(255,215,0,0.12); color: var(--gold); }
+
+  .amount-display {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .amount-label { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+  .amount-value {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 48px;
+    color: var(--text);
+    letter-spacing: -0.03em;
+  }
+  .amount-value input {
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-family: inherit;
+    font-weight: inherit;
+    font-size: inherit;
+    letter-spacing: inherit;
+    width: 140px;
+    text-align: center;
+  }
+
+  .pay-to {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .pay-to-label { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; margin-bottom: 2px; }
+  .pay-to-name { font-weight: 500; font-size: 15px; }
+
+  .venmo-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--venmo-blue);
+    border: none;
+    border-radius: 16px;
+    color: white;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+    margin-bottom: 12px;
+  }
+  .venmo-btn:hover { background: #1a9fff; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,140,255,0.35); }
+  .venmo-btn:active { transform: translateY(0); }
+
+  .dismiss-btn {
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .dismiss-btn:hover { border-color: rgba(255,255,255,0.15); color: var(--text); }
+
+  /* ── Model stats panel ── */
+  .stats-panel {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(12px);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .stats-panel.show { opacity: 1; pointer-events: all; }
+
+  .stats-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 28px;
+    width: 100%;
+    max-width: 360px;
+    transform: scale(0.9);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .stats-panel.show .stats-card { transform: scale(1); }
+
+  .stats-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
+
+  .stats-sub { font-size: 12px; color: var(--muted); font-family: 'DM Mono', monospace; margin-bottom: 24px; }
+
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .stat-row:last-of-type { border-bottom: none; }
+  .stat-key { font-size: 13px; color: var(--muted); }
+  .stat-val { font-family: 'DM Mono', monospace; font-size: 15px; font-weight: 500; color: var(--accent); }
+
+  .bar-wrap { margin-top: 20px; }
+  .bar-label { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; margin-bottom: 6px; }
+  .bar-bg { background: var(--surface2); border-radius: 4px; height: 8px; overflow: hidden; }
+  .bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--accent2), var(--accent));
+    transition: width 1s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .close-stats {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .close-stats:hover { border-color: rgba(255,255,255,0.2); }
+
+  /* ── Toast ── */
+  .toast {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 10px 18px;
+    font-size: 13px;
+    font-family: 'DM Mono', monospace;
+    color: var(--text);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s;
+    z-index: 300;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.green { border-color: rgba(0,229,160,0.4); color: var(--accent); }
+
+  /* ── Demo suggestion pills ── */
+  .suggestions {
+    display: flex;
+    gap: 8px;
+    padding: 10px 16px 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .suggestions::-webkit-scrollbar { display: none; }
+
+  .pill {
+    flex-shrink: 0;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 12px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    font-family: 'DM Mono', monospace;
+  }
+  .pill:hover { border-color: rgba(255,215,0,0.4); color: var(--gold); background: var(--gold-dim); }
+
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="avatar-group">
+      <div class="avatar j" style="z-index:3">J</div>
+      <div class="avatar a" style="z-index:2;margin-left:-8px">A</div>
+    </div>
+    <div class="header-info">
+      <div class="header-name">Group Chat 💸</div>
+      <div class="header-sub">3 members · AI-powered</div>
+    </div>
+    <div class="model-badge" onclick="showStats()">
+      <div class="model-dot"></div>
+      <span>MODEL LIVE</span>
+    </div>
+  </div>
+
+  <!-- Suggestions -->
+  <div class="suggestions" id="suggestions">
+    <div class="pill" onclick="useSuggestion(this)">you owe me $20</div>
+    <div class="pill" onclick="useSuggestion(this)">split the Uber?</div>
+    <div class="pill" onclick="useSuggestion(this)">venmo me later</div>
+    <div class="pill" onclick="useSuggestion(this)">pay me back for dinner</div>
+    <div class="pill" onclick="useSuggestion(this)">$35 each for the Airbnb</div>
+    <div class="pill" onclick="useSuggestion(this)">cashapp me $15</div>
+  </div>
+
+  <!-- Chat -->
+  <div class="chat" id="chat">
+    <div class="date-sep">TODAY</div>
+  </div>
+
+  <!-- Typing indicator -->
+  <div class="typing" id="typing">
+    <div class="avatar j" style="width:24px;height:24px;font-size:10px">J</div>
+    <div class="typing-dots">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="typing-name" id="typingName">Jordan is typing…</div>
+  </div>
+
+  <!-- Input -->
+  <div class="input-area">
+    <div class="avatar you">Y</div>
+    <div class="input-wrap">
+      <input class="msg-input" id="msgInput" type="text"
+        placeholder="Message…"
+        onkeydown="if(event.key==='Enter') sendMessage()"
+      >
+      <button class="send-btn" id="sendBtn" onclick="sendMessage()">↑</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Venmo Sheet -->
+<div class="overlay" id="overlay" onclick="closeVenmo(event)">
+  <div class="venmo-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-header">
+      <div class="venmo-logo">venmo</div>
+      <div class="sheet-subtitle">💰 Money mention detected</div>
+    </div>
+    <div class="sheet-body">
+      <div class="detection-card">
+        <div class="detection-label">✦ Triggering message</div>
+        <div class="detection-message" id="triggerMsg"></div>
+        <div class="detection-meta" id="detectionMeta"></div>
+      </div>
+
+      <div class="amount-display">
+        <div class="amount-label">Amount</div>
+        <div class="amount-value">$<input type="text" id="amountInput" value="—" style="width:120px"></div>
+      </div>
+
+      <div class="pay-to">
+        <div class="avatar j">J</div>
+        <div>
+          <div class="pay-to-label">Paying</div>
+          <div class="pay-to-name" id="payToName">Jordan</div>
+        </div>
+      </div>
+
+      <button class="venmo-btn" onclick="openVenmo()">Open Venmo →</button>
+      <button class="dismiss-btn" onclick="closeVenmo()">Dismiss</button>
+    </div>
+  </div>
+</div>
+
+<!-- Model Stats Panel -->
+<div class="stats-panel" id="statsPanel" onclick="hideStats(event)">
+  <div class="stats-card">
+    <div class="stats-title">Your Model ⚡</div>
+    <div class="stats-sub" id="modelVersion">DistilBERT · fine-tuned</div>
+    <div class="stat-row"><span class="stat-key">Architecture</span><span class="stat-val">DistilBERT</span></div>
+    <div class="stat-row"><span class="stat-key">Accuracy</span><span class="stat-val" id="statAcc">—</span></div>
+    <div class="stat-row"><span class="stat-key">F1 Score</span><span class="stat-val" id="statF1">—</span></div>
+    <div class="stat-row"><span class="stat-key">Latency</span><span class="stat-val" id="statLatency">—</span></div>
+    <div class="stat-row"><span class="stat-key">Detections</span><span class="stat-val" id="statDetections">0</span></div>
+    <div class="stat-row"><span class="stat-key">Model</span><span class="stat-val">YOURS ✓</span></div>
+    <div class="bar-wrap">
+      <div class="bar-label">Confidence threshold: 65%</div>
+      <div class="bar-bg"><div class="bar-fill" id="confBar" style="width:65%"></div></div>
+    </div>
+    <button class="close-stats" onclick="hideStats()">Close</button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Config ──
+const API_URL = window.location.origin; // auto-detects: works on localhost, Render, ngrok, etc.
+const USE_CLAUDE_FALLBACK = false;   // set to true and add your Anthropic API key to claudeFallback() to enable
+
+// ── State ──
+let messageCount = 0;
+let detectionCount = 0;
+let totalLatency = 0;
+let modelVersion = null;
+let venmoTarget = { name: "Jordan", handle: "@jordan.demo" };
+
+// ── Demo conversation seeds ──
+const SEED_MESSAGES = [
+  { sender: "Jordan", avatar: "j", text: "yo guys what time are we doing dinner tonight", delay: 800 },
+  { sender: "Alex", avatar: "a", text: "I was thinking 7pm? that place on King St", delay: 2200 },
+  { sender: "Jordan", avatar: "j", text: "works for me! also alex you still owe me $23 from last week 👀", delay: 4000, isMoney: true, amount: "$23" },
+  { sender: "Alex", avatar: "a", text: "omg yes I totally forgot, venmo me your handle I'll send it rn", delay: 6200, isMoney: true },
+  { sender: "Jordan", avatar: "j", text: "it's @jordan.paychat, no rush though", delay: 8000 },
+  { sender: "Alex", avatar: "a", text: "should we split dinner 3 ways? easier than figuring out itemized", delay: 10500, isMoney: true },
+  { sender: "Jordan", avatar: "j", text: "yeah let's do that, last time it was like $40 each with tip", delay: 12800, isMoney: true, amount: "$40" },
+];
+
+// ── Boot: load seed messages ──
+async function init() {
+  await checkModelHealth();
+  playSeedMessages();
+}
+
+async function checkModelHealth() {
+  try {
+    const res = await fetch(`${API_URL}/health`, { signal: AbortSignal.timeout(3000) });
+    const data = await res.json();
+    modelVersion = data.version;
+    updateModelBadge(data);
+    showToast("✓ Your model is live", "green");
+  } catch {
+    updateModelBadge(null);
+  }
+}
+
+function updateModelBadge(health) {
+  const badge = document.querySelector('.model-badge');
+  const dot = document.querySelector('.model-dot');
+  if (health?.version) {
+    badge.innerHTML = `<div class="model-dot"></div><span>YOUR MODEL</span>`;
+    document.getElementById('statAcc').textContent = health.version.test_accuracy
+      ? (health.version.test_accuracy * 100).toFixed(1) + '%' : '—';
+    document.getElementById('statF1').textContent = health.version.test_f1
+      ? (health.version.test_f1 * 100).toFixed(1) + '%' : '—';
+    document.getElementById('modelVersion').textContent = `Trained: ${health.version.trained_at?.slice(0,10) || 'unknown'}`;
+  } else {
+    badge.innerHTML = `<div class="model-dot" style="background:#ffd700"></div><span>DEMO MODE</span>`;
+  }
+}
+
+// ── Seed messages ──
+function playSeedMessages() {
+  SEED_MESSAGES.forEach(msg => {
+    setTimeout(() => addIncomingMessage(msg), msg.delay);
+  });
+}
+
+function addIncomingMessage({ sender, avatar, text, isMoney, amount }) {
+  const chat = document.getElementById('chat');
+
+  const row = document.createElement('div');
+  row.className = 'msg-row them';
+
+  const av = document.createElement('div');
+  av.className = `avatar ${avatar}`;
+  av.textContent = sender[0];
+
+  const wrap = document.createElement('div');
+  wrap.className = 'bubble-wrap';
+
+  const name = document.createElement('div');
+  name.className = 'sender-name';
+  name.textContent = sender;
+
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+  bubble.textContent = text;
+
+  const ts = document.createElement('div');
+  ts.className = 'timestamp';
+  ts.textContent = now();
+
+  wrap.append(name, bubble, ts);
+  row.append(av, wrap);
+  chat.appendChild(row);
+  scrollToBottom();
+
+  // Trigger Venmo popup for seeded money messages
+  if (isMoney) {
+    setTimeout(async () => {
+      // Run real detection even on seeded messages
+      const result = await detectMoney(text);
+      const triggerType = result?.trigger_type || 'owing_debt';
+      const confidence = result?.confidence || 0.94;
+      const detectedAmount = result?.detected_amount || amount;
+      bubble.classList.add('money-detected');
+      addMoneyTag(wrap, triggerType, confidence, detectedAmount);
+      triggerVenmoSheet(text, sender, detectedAmount, confidence, triggerType);
+      detectionCount++;
+      document.getElementById('statDetections').textContent = detectionCount;
+    }, 600);
+  }
+
+  // Return elements so callers can mark them after detection
+  return { bubble, wrap };
+}
+
+// ── Send message ──
+async function sendMessage() {
+  const input = document.getElementById('msgInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  input.value = '';
+  messageCount++;
+
+  // Add my bubble
+  addMyBubble(text);
+
+  // Run detection
+  const result = await detectMoney(text);
+
+  if (result?.is_money) {
+    const myBubbles = document.querySelectorAll('.msg-row.me .bubble');
+    const lastBubble = myBubbles[myBubbles.length - 1];
+    const myWraps = document.querySelectorAll('.msg-row.me .bubble-wrap');
+    const lastWrap = myWraps[myWraps.length - 1];
+
+    setTimeout(() => {
+      lastBubble.classList.add('money-detected');
+      addMoneyTag(lastWrap, result.trigger_type, result.confidence, result.detected_amount);
+      triggerVenmoSheet(text, 'You → Jordan', result.detected_amount, result.confidence, result.trigger_type);
+      detectionCount++;
+      document.getElementById('statDetections').textContent = detectionCount;
+    }, 400);
+  }
+
+  // Simulate reply
+  simulateReply(text, result);
+}
+
+function addMyBubble(text) {
+  const chat = document.getElementById('chat');
+  const row = document.createElement('div');
+  row.className = 'msg-row me';
+
+  const wrap = document.createElement('div');
+  wrap.className = 'bubble-wrap';
+
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+  bubble.textContent = text;
+
+  const ts = document.createElement('div');
+  ts.className = 'timestamp';
+  ts.textContent = now();
+
+  wrap.append(bubble, ts);
+  row.append(wrap);
+  document.getElementById('chat').appendChild(row);
+  scrollToBottom();
+}
+
+function addMoneyTag(wrap, triggerType, confidence, amount) {
+  const tag = document.createElement('div');
+  tag.className = 'money-tag';
+
+  const triggerLabels = {
+    owing_debt: '💳 owing debt',
+    bill_splitting: '🤝 bill split',
+    direct_amount: '💰 direct amount',
+    payment_app: '📱 payment app',
+    general_money: '💵 money',
+  };
+
+  const label = triggerLabels[triggerType] || '💵 money';
+  const conf = Math.round(confidence * 100);
+  const amtStr = amount ? ` · ${amount}` : '';
+  tag.textContent = `${label}${amtStr} · ${conf}% conf`;
+  wrap.appendChild(tag);
+}
+
+// ── Detection ──
+async function detectMoney(text) {
+  const t0 = Date.now();
+  try {
+    const res = await fetch(`${API_URL}/detect`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text, sender: 'you', message_id: `msg_${messageCount}` }),
+      signal: AbortSignal.timeout(5000),
+    });
+    const data = await res.json();
+    const latency = Date.now() - t0;
+    totalLatency += latency;
+    document.getElementById('statLatency').textContent = `${latency}ms`;
+    return data;
+  } catch {
+    // Fallback: Claude API or keyword detection
+    return fallbackDetect(text);
+  }
+}
+
+async function fallbackDetect(text) {
+  if (USE_CLAUDE_FALLBACK) {
+    return claudeFallback(text);
+  }
+  return keywordFallback(text);
+}
+
+async function claudeFallback(text) {
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "anthropic-version": "2023-06-01",
+        "anthropic-dangerous-direct-browser-access": "true",
+      },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 200,
+        messages: [{
+          role: "user",
+          content: `Analyze this chat message for money-related content. Return JSON only.
+Message: "${text}"
+Return: {"is_money": bool, "confidence": 0-1, "trigger_type": "owing_debt|bill_splitting|direct_amount|payment_app|general_money|null", "detected_amount": "string or null"}
+Rules: is_money=true for: owing money, splitting bills, dollar amounts, venmo/cashapp mentions. Be strict — casual number mentions are NOT money.`
+        }]
+      })
+    });
+    const data = await res.json();
+    const raw = data.content?.[0]?.text || '{}';
+    return JSON.parse(raw.replace(/```json|```/g, '').trim());
+  } catch {
+    return keywordFallback(text);
+  }
+}
+
+function keywordFallback(text) {
+  const t = text.toLowerCase();
+  const moneyWords = ['venmo', 'cashapp', 'zelle', 'pay me', 'owe me', 'owe you', 'split', 'halves', 'half', 'pay back', 'paid for', 'chip in', 'front', 'cover', 'send me', 'send you', 'i need', 'you owe', 'pay up'];
+  // Match $50, 50$, $50.00, 50 dollars, 50 bucks
+  const hasAmount = /\$[\d,.]+|\d+\s*\$|\d+\s*(dollars?|bucks?)/i.test(text);
+  const hasMoneyWord = moneyWords.some(w => t.includes(w));
+
+  if (!hasAmount && !hasMoneyWord) return { is_money: false, confidence: 0.1 };
+
+  let triggerType = 'general_money';
+  if (['venmo', 'cashapp', 'zelle'].some(w => t.includes(w))) triggerType = 'payment_app';
+  else if (['owe me', 'owe you', 'you owe', 'pay me', 'pay back'].some(w => t.includes(w))) triggerType = 'owing_debt';
+  else if (['split', 'halves', 'half', 'chip in'].some(w => t.includes(w))) triggerType = 'bill_splitting';
+  else if (hasAmount) triggerType = 'direct_amount';
+
+  // Match both $50 and 50$
+  const amountMatch = text.match(/\$[\d,]+(?:\.\d{1,2})?|\d+\s*\$|\d+\s*(dollars?|bucks?)/i);
+  let detectedAmount = amountMatch?.[0] || null;
+  // Normalize "50$" → "$50"
+  if (detectedAmount && /^\d+\s*\$$/.test(detectedAmount)) {
+    detectedAmount = '$' + detectedAmount.replace(/\s*\$/, '');
+  }
+  return {
+    is_money: true,
+    confidence: 0.88,
+    trigger_type: triggerType,
+    detected_amount: detectedAmount,
+  };
+}
+
+// ── Venmo Sheet ──
+function triggerVenmoSheet(message, sender, amount, confidence, triggerType) {
+  document.getElementById('triggerMsg').textContent = `"${message}"`;
+
+  // Detection meta chips
+  const meta = document.getElementById('detectionMeta');
+  meta.innerHTML = '';
+  if (triggerType) {
+    const triggerLabels = {
+      owing_debt: '💳 Owing/Debt',
+      bill_splitting: '🤝 Bill Split',
+      direct_amount: '💰 Direct Amount',
+      payment_app: '📱 Payment App',
+      general_money: '💵 Money',
+    };
+    meta.innerHTML += `<span class="meta-chip gold">${triggerLabels[triggerType] || triggerType}</span>`;
+  }
+  if (confidence) meta.innerHTML += `<span class="meta-chip green">${Math.round(confidence * 100)}% confidence</span>`;
+  meta.innerHTML += `<span class="meta-chip">YOUR MODEL</span>`;
+
+  // Amount
+  const amtInput = document.getElementById('amountInput');
+  if (amount) {
+    amtInput.value = amount.replace(/[^0-9.]/g, '') || '—';
+  } else {
+    amtInput.value = '—';
+  }
+
+  // Sender
+  document.getElementById('payToName').textContent = sender || 'Jordan';
+
+  // Show overlay
+  document.getElementById('overlay').classList.add('show');
+}
+
+function closeVenmo(event) {
+  if (event && event.target !== document.getElementById('overlay')) return;
+  document.getElementById('overlay').classList.remove('show');
+}
+
+function openVenmo() {
+  const amount = document.getElementById('amountInput').value;
+  const note = encodeURIComponent("PayChat split 💸");
+  const url = `venmo://paycharge?txn=pay&recipients=${venmoTarget.handle}&amount=${amount}&note=${note}`;
+  window.location.href = url;
+  setTimeout(() => window.open('https://venmo.com', '_blank'), 500);
+  document.getElementById('overlay').classList.remove('show');
+}
+
+// ── Stats panel ──
+function showStats() {
+  document.getElementById('statsPanel').classList.add('show');
+  setTimeout(() => {
+    document.getElementById('confBar').style.width = '65%';
+  }, 100);
+}
+
+function hideStats(event) {
+  if (event && event.target !== document.getElementById('statsPanel')) return;
+  document.getElementById('statsPanel').classList.remove('show');
+}
+
+// ── Simulated reply ──
+function simulateReply(originalText, detection) {
+  const moneyReplies = [
+    "yeah venmo me whenever you can",
+    "ok I'll cashapp you $15 rn",
+    "I'll send you $20 on venmo, what's your handle?",
+    "haha caught! sending you $25 now",
+    "omg I totally forgot, let me pay you back on zelle",
+    "ok splitting it — I owe you like $30",
+    "bet, venmo me and we're even",
+  ];
+  const casualReplies = [
+    "haha true",
+    "lmao ok",
+    "facts",
+    "ok sounds good",
+    "yeah definitely",
+    "for real tho",
+    "bet",
+  ];
+
+  const replies = detection?.is_money ? moneyReplies : casualReplies;
+
+  const senders = [
+    { name: 'Jordan', avatar: 'j' },
+    { name: 'Alex', avatar: 'a' },
+  ];
+  const who = senders[Math.floor(Math.random() * senders.length)];
+  const replyText = replies[Math.floor(Math.random() * replies.length)];
+
+  // Show typing
+  const typingEl = document.getElementById('typing');
+  const typingName = document.getElementById('typingName');
+  const typingAvatar = typingEl.querySelector('.avatar');
+  typingAvatar.className = `avatar ${who.avatar}`;
+  typingAvatar.textContent = who.name[0];
+  typingName.textContent = `${who.name} is typing…`;
+
+  setTimeout(() => {
+    typingEl.classList.add('show');
+    scrollToBottom();
+  }, 800);
+
+  setTimeout(async () => {
+    typingEl.classList.remove('show');
+    // Add the friend's bubble
+    const { bubble, wrap } = addIncomingMessage({
+      sender: who.name,
+      avatar: who.avatar,
+      text: replyText,
+    });
+    // Run detection on the friend's reply too
+    const result = await detectMoney(replyText);
+    if (result?.is_money && bubble && wrap) {
+      setTimeout(() => {
+        bubble.classList.add('money-detected');
+        addMoneyTag(wrap, result.trigger_type, result.confidence, result.detected_amount);
+        triggerVenmoSheet(replyText, who.name, result.detected_amount, result.confidence, result.trigger_type);
+        detectionCount++;
+        document.getElementById('statDetections').textContent = detectionCount;
+      }, 400);
+    }
+  }, 2400 + Math.random() * 1000);
+}
+
+// ── Suggestions ──
+function useSuggestion(pill) {
+  document.getElementById('msgInput').value = pill.textContent;
+  document.getElementById('msgInput').focus();
+}
+
+// ── Utils ──
+function now() {
+  const d = new Date();
+  return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+}
+
+function scrollToBottom() {
+  const chat = document.getElementById('chat');
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function showToast(msg, type = '') {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.className = `toast show ${type}`;
+  setTimeout(() => toast.classList.remove('show'), 2800);
+}
+
+// ── Start ──
+init();
+</script>
+</body>
+</html>

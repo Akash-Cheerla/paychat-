@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: paychat-api
+    runtime: docker
+    plan: starter
+    healthCheckPath: /health
+    envVars:
+      - key: MODEL_DIR
+        value: /app/saved_model
+      - key: DEMO_DIR
+        value: /app/demo
+      - key: CONFIDENCE_THRESHOLD
+        value: "0.65"
