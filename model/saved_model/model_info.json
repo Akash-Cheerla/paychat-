@@ -1,0 +1,24 @@
+{
+  "architecture": "DualHeadRoberta",
+  "base_model": "roberta-base",
+  "num_intents": 9,
+  "intents": [
+    "money",
+    "ride",
+    "food_order",
+    "contact",
+    "alarm",
+    "reminder",
+    "calendar",
+    "bills",
+    "travel"
+  ],
+  "dropout": 0.1,
+  "projection_dim": 128,
+  "has_action_head": true,
+  "has_projection_head": true,
+  "context_format": "prev1 </s> prev2 </s> prev3 </s> current",
+  "max_context_messages": 3,
+  "max_length": 256,
+  "context_time_cap_seconds": 300
+}

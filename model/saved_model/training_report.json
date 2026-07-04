@@ -1,16 +1,76 @@
 {
-  "trained_at": "2026-03-22T13:36:00",
-  "model": "distilbert-base-uncased",
-  "epochs": 3,
-  "test_accuracy": 1.0,
-  "test_auc": 1.0,
-  "test_precision": 1.0,
-  "test_recall": 1.0,
-  "test_f1": 1.0,
-  "confusion_matrix": [[272, 0], [0, 268]],
+  "model": "v21",
+  "trained_at": "2026-07-03T09:04:32.118303",
+  "architecture": "DualHeadRoberta",
+  "dataset": "merged_v12",
+  "train_size": 387586,
+  "val_size": 48448,
+  "test_size": 48449,
+  "epochs": 5,
+  "best_epoch": 5,
+  "best_val_f1": 0.9524,
+  "test_exact_match": 0.9686,
+  "test_hamming": 0.99612,
+  "thresholds": {
+    "money": 0.6206,
+    "ride": 0.6792,
+    "food_order": 0.6899,
+    "contact": 0.7754,
+    "alarm": 0.6479,
+    "reminder": 0.5972,
+    "calendar": 0.6831,
+    "bills": 0.7368,
+    "travel": 0.6074,
+    "_action": 0.51
+  },
+  "intents": [
+    "money",
+    "ride",
+    "food_order",
+    "contact",
+    "alarm",
+    "reminder",
+    "calendar",
+    "bills",
+    "travel"
+  ],
   "training_history": [
-    {"epoch": 1, "train_loss": 0.1927, "train_acc": 0.926, "val_acc": 1.0, "val_auc": 1.0},
-    {"epoch": 2, "train_loss": 0.003, "train_acc": 1.0, "val_acc": 1.0, "val_auc": 1.0},
-    {"epoch": 3, "train_loss": 0.001, "train_acc": 1.0, "val_acc": 1.0, "val_auc": 1.0}
+    {
+      "epoch": 1,
+      "loss": 1.653135521417032,
+      "val_f1": 0.9014238795625773,
+      "em": 0.9364473249669749
+    },
+    {
+      "epoch": 2,
+      "loss": 0.943890262331328,
+      "val_f1": 0.93115681279158,
+      "em": 0.9540744715984147
+    },
+    {
+      "epoch": 3,
+      "loss": 0.7617275536808128,
+      "val_f1": 0.9414781110026296,
+      "em": 0.9610923051519155
+    },
+    {
+      "epoch": 4,
+      "loss": 0.6477623568199298,
+      "val_f1": 0.9492399173336863,
+      "em": 0.9666859313077939
+    },
+    {
+      "epoch": 5,
+      "loss": 0.5737256092018593,
+      "val_f1": 0.9524231262280263,
+      "em": 0.9689357661822986
+    }
+  ],
+  "changes_from_v20": [
+    "30K context-prefixed examples added",
+    "17K context bleed TNs 3x upsampled",
+    "9K continuation TPs",
+    "Single-phase training",
+    "Dataset: merged_v12 (484K)"
   ]
 }

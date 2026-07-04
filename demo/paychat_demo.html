@@ -295,27 +295,105 @@
   .bubble.money-detected {
     background: var(--gold-dim) !important;
     border-color: rgba(255,215,0,0.4) !important;
-    animation: moneyPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: intentPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .bubble.ride-detected {
+    background: rgba(0,180,216,0.12) !important;
+    border-color: rgba(0,180,216,0.4) !important;
+    animation: intentPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .bubble.food-detected {
+    background: rgba(255,107,107,0.12) !important;
+    border-color: rgba(255,107,107,0.4) !important;
+    animation: intentPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
-  @keyframes moneyPop {
+  @keyframes intentPop {
     0%   { transform: scale(1); }
     40%  { transform: scale(1.04); }
     100% { transform: scale(1); }
   }
 
-  .money-tag {
+  .intent-tag {
     display: inline-flex;
     align-items: center;
     gap: 4px;
     font-size: 10px;
     font-family: 'DM Mono', monospace;
-    color: var(--gold);
-    background: rgba(255,215,0,0.15);
-    border: 1px solid rgba(255,215,0,0.3);
     border-radius: 10px;
     padding: 1px 7px;
     margin-top: 4px;
+    margin-right: 3px;
+  }
+  .intent-money    { color: var(--gold); background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.3); }
+  .intent-ride     { color: #00b4d8; background: rgba(0,180,216,0.12); border: 1px solid rgba(0,180,216,0.3); }
+  .intent-food_order { color: #ff6b6b; background: rgba(255,107,107,0.12); border: 1px solid rgba(255,107,107,0.3); }
+  .intent-contact  { color: #82e0aa; background: rgba(130,224,170,0.12); border: 1px solid rgba(130,224,170,0.3); }
+  .intent-alarm    { color: #f0a500; background: rgba(240,165,0,0.12); border: 1px solid rgba(240,165,0,0.3); }
+  .intent-reminder { color: #7c5cfc; background: rgba(124,92,252,0.12); border: 1px solid rgba(124,92,252,0.3); }
+  .intent-calendar { color: #00e5a0; background: rgba(0,229,160,0.12); border: 1px solid rgba(0,229,160,0.3); }
+  .intent-bills    { color: #ff85a1; background: rgba(255,133,161,0.12); border: 1px solid rgba(255,133,161,0.3); }
+  .intent-travel   { color: #56ccf2; background: rgba(86,204,242,0.12); border: 1px solid rgba(86,204,242,0.3); }
+
+  .slot-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 4px;
+  }
+  .slot-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 9px;
+    font-family: 'DM Mono', monospace;
+    border-radius: 8px;
+    padding: 1px 6px;
+    color: var(--muted);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .slot-key { opacity: 0.6; }
+  .slot-val { color: var(--text); }
+
+  .context-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 9px;
+    font-family: 'DM Mono', monospace;
+    color: #ffd700;
+    background: rgba(255,215,0,0.08);
+    border: 1px solid rgba(255,215,0,0.2);
+    border-radius: 8px;
+    padding: 1px 6px;
+    margin-top: 4px;
+    margin-right: 3px;
+  }
+
+  .lifecycle-banner {
+    text-align: center;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    padding: 6px 12px;
+    border-radius: 12px;
+    margin: 4px 0;
+    animation: fadeIn 0.3s;
+  }
+  .lifecycle-cancel {
+    color: #ff4757;
+    background: rgba(255,71,87,0.1);
+    border: 1px solid rgba(255,71,87,0.2);
+  }
+  .lifecycle-defer {
+    color: #ffd700;
+    background: rgba(255,215,0,0.1);
+    border: 1px solid rgba(255,215,0,0.2);
+  }
+  .lifecycle-confirm {
+    color: #00e5a0;
+    background: rgba(0,229,160,0.1);
+    border: 1px solid rgba(0,229,160,0.2);
   }
 
   .timestamp {
@@ -591,7 +669,7 @@
 <div class="join-screen" id="joinScreen">
   <div class="join-card">
     <div class="join-logo">PayChat</div>
-    <div class="join-sub">real-time money detection</div>
+    <div class="join-sub">real-time 9-intent detection</div>
 
     <input type="text" class="join-input" id="nicknameInput" placeholder="Your name" maxlength="20" autocomplete="off">
 
@@ -667,8 +745,8 @@
 <div class="stats-panel" id="statsPanel" onclick="hideStats(event)">
   <div class="stats-card">
     <div class="stats-title">Your Model</div>
-    <div class="stats-sub" id="modelVersion">DistilBERT fine-tuned</div>
-    <div class="stat-row"><span class="stat-key">Architecture</span><span class="stat-val">DistilBERT</span></div>
+    <div class="stats-sub" id="modelVersion">RoBERTa 9-intent v11</div>
+    <div class="stat-row"><span class="stat-key">Architecture</span><span class="stat-val">RoBERTa-base</span></div>
     <div class="stat-row"><span class="stat-key">Accuracy</span><span class="stat-val" id="statAcc">--</span></div>
     <div class="stat-row"><span class="stat-key">F1 Score</span><span class="stat-val" id="statF1">--</span></div>
     <div class="stat-row"><span class="stat-key">Messages</span><span class="stat-val" id="statMsgs">0</span></div>
@@ -847,12 +925,23 @@ function addChatMessage(msg) {
   messageCount++;
   document.getElementById('statMsgs').textContent = messageCount;
 
-  // Handle money detection (arrives with the message now)
-  const det = msg.venmo_detection;
-  if (det && det.is_money) {
-    bubble.classList.add('money-detected');
-    addMoneyTag(wrap, det.trigger_type, det.confidence, det.detected_amount);
+  // Handle intent detection (new 9-intent format)
+  const det = msg.detection || msg.venmo_detection;
+  const intents = det?.intents || (det?.is_money ? ['money'] : []);
 
+  // Lifecycle events (cancel/defer/confirm)
+  if (det?.lifecycle) {
+    const lc = det.lifecycle;
+    const lcEl = document.createElement('div');
+    lcEl.className = `lifecycle-banner lifecycle-${lc.action}`;
+    const icons = { cancel: '✕', defer: '⏸', confirm: '✓' };
+    const verbs = { cancel: 'Cancelled', defer: 'Deferred', confirm: 'Confirmed' };
+    const affectedIntents = lc.cancelled_intents || lc.deferred_intents || lc.confirmed_intents || [];
+    lcEl.textContent = `${icons[lc.action] || '•'} ${verbs[lc.action] || lc.action}: ${affectedIntents.join(', ')}`;
+    wrap.appendChild(lcEl);
+  }
+
+  if (intents.length > 0) {
     detectionCount++;
     document.getElementById('statDetections').textContent = detectionCount;
 
@@ -861,24 +950,57 @@ function addChatMessage(msg) {
       document.getElementById('statLatency').textContent = `${Math.round(totalLatency / detectionCount)}ms`;
     }
 
-    // Venmo popup direction logic:
-    //   "request" = sender wants money FROM others -> popup for recipients
-    //   "offer"   = sender offering to pay -> popup for sender
-    //   "split"   = everyone sees popup
-    const dir = det.direction || 'request';
-    let showPopup = false;
-
-    if (dir === 'request') {
-      showPopup = !isMe;
-    } else if (dir === 'offer') {
-      showPopup = isMe;
-    } else if (dir === 'split') {
-      showPopup = true;
+    // Add intent tags for each fired intent
+    for (const intent of intents) {
+      addIntentTag(wrap, intent, det.scores?.[intent] || det.confidence || 0.8);
     }
 
-    if (showPopup) {
-      triggerVenmoSheet(msg.text, msg.nickname, det.detected_amount, det.confidence, det.trigger_type);
+    // Context boost badge
+    if (det.context_boosted && det.context_boosted.length > 0) {
+      for (const boosted of det.context_boosted) {
+        const badge = document.createElement('span');
+        badge.className = 'context-badge';
+        badge.textContent = `⚡ ${boosted} (context)`;
+        wrap.appendChild(badge);
+      }
     }
+
+    // Slot tags
+    if (det.slots && Object.keys(det.slots).length > 0) {
+      const slotRow = document.createElement('div');
+      slotRow.className = 'slot-row';
+      for (const [key, val] of Object.entries(det.slots)) {
+        const tag = document.createElement('span');
+        tag.className = 'slot-tag';
+        const displayVal = typeof val === 'object' ? Object.values(val).join(', ') : val;
+        tag.innerHTML = `<span class="slot-key">${key}:</span> <span class="slot-val">${displayVal}</span>`;
+        slotRow.appendChild(tag);
+      }
+      wrap.appendChild(slotRow);
+    }
+
+    // Money-specific: Venmo popup
+    if (intents.includes('money')) {
+      bubble.classList.add('money-detected');
+      const money = det.money || det;
+      const dir = money.direction || 'request';
+      let showPopup = false;
+
+      if (dir === 'request') showPopup = !isMe;
+      else if (dir === 'offer') showPopup = isMe;
+      else if (dir === 'split') showPopup = true;
+
+      if (showPopup) {
+        triggerVenmoSheet(msg.text, msg.nickname,
+          money.detected_amount || money.amount,
+          det.scores?.money || money.confidence || 0.8,
+          money.trigger_type);
+      }
+    }
+
+    // Ride intent highlight
+    if (intents.includes('ride')) bubble.classList.add('ride-detected');
+    if (intents.includes('food_order')) bubble.classList.add('food-detected');
   }
 
   // Hide typing
@@ -914,21 +1036,18 @@ function showTyping(nickname) {
   scrollToBottom();
 }
 
-// ── Money tag ──
-function addMoneyTag(wrap, triggerType, confidence, amount) {
+// ── Intent tag ──
+function addIntentTag(wrap, intent, confidence) {
   const tag = document.createElement('div');
-  tag.className = 'money-tag';
+  tag.className = `intent-tag intent-${intent}`;
   const labels = {
-    owing_debt: 'owing debt',
-    bill_splitting: 'bill split',
-    direct_amount: 'direct amount',
-    payment_app: 'payment app',
-    general_money: 'money',
+    money: '💰 money', ride: '🚗 ride', food_order: '🍕 food',
+    contact: '📞 contact', alarm: '⏰ alarm', reminder: '🔔 reminder',
+    calendar: '📅 calendar', bills: '🧾 bills', travel: '✈️ travel',
   };
-  const label = labels[triggerType] || 'money';
-  const conf = Math.round(confidence * 100);
-  const amtStr = amount ? ` | ${amount}` : '';
-  tag.textContent = `${label}${amtStr} | ${conf}% conf`;
+  const label = labels[intent] || intent;
+  const conf = Math.round((confidence || 0.8) * 100);
+  tag.textContent = `${label} | ${conf}%`;
   wrap.appendChild(tag);
 }
 
