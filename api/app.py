@@ -264,7 +264,7 @@ def fast_keyword_detect(text: str) -> dict:
         'i got you', "i'll get this", 'need my money',
     ]
     has_money_kw = any(w in t for w in money_words)
-    has_amount = bool(re.search(r'\$[\d,.]+|\d+\s*\$|\d+\s*(dollars?|bucks?|rupees?)', t))
+    has_amount = bool(re.search(r'[\$₹][\d,.]+|\d+\s*[\$₹]|\d+\s*(?:dollars?|bucks?|rupees?|rs\.?|inr|ringgit|rm|myr)\b', t))
     # Suppress false positives
     money_suppress = ['pay attention', 'pay respect', 'pay the price', 'i owe my success',
                       'owe it to', "don't owe", 'doesnt owe', "doesn't owe"]
@@ -414,8 +414,8 @@ def _enrich_money(text: str) -> dict:
 
     # Amount
     amount_match = re.search(
-        r'\$[\d,]+(?:\.\d{1,2})?|\b\d+\s*\$|\b\d+\s*(?:dollars?|bucks?|rupees?)\b'
-        r'|₹[\d,]+|\b\d+\s*₹',
+        r'[\$₹][\d,]+(?:\.\d{1,2})?|\b\d+\s*[\$₹]'
+        r'|\b\d+\s*(?:dollars?|bucks?|rupees?|rs\.?|inr|ringgit|rm|myr)\b',
         text, re.IGNORECASE)
     amount = amount_match.group(0) if amount_match else None
     if amount and re.match(r'^\d+\s*\$', amount):
@@ -428,7 +428,7 @@ def _enrich_money(text: str) -> dict:
         trigger = "bill_splitting"
     elif any(w in t for w in ["owe", "owed", "pay me back", "pay back"]):
         trigger = "owing_debt"
-    elif "$" in t or any(w in t for w in ["dollars", "bucks", "rupees"]):
+    elif "$" in t or "₹" in t or any(w in t for w in ["dollars", "bucks", "rupees", "ringgit", " rm ", " myr"]):
         trigger = "direct_amount"
     else:
         trigger = "general_money"
@@ -649,7 +649,7 @@ _FOOD_PATTERNS = [
 ]
 
 
-def extract_slots(text: str, intents: list, room_id: str = None) -> dict:
+def extract_slots(text: str, intents: list, room_id: str = None, prev_messages: list = None) -> dict:
     """Extract structured slots based on detected intents."""
     slots = {}
     t = text.strip()
@@ -677,7 +677,7 @@ def extract_slots(text: str, intents: list, room_id: str = None) -> dict:
 
     # ── Pickup & Destination (for ride, travel) ──
     if any(i in intents for i in ["ride", "travel"]):
-        ride_slots = _extract_ride_slots(t)
+        ride_slots = _extract_ride_slots(t, prev_messages=prev_messages)
         if ride_slots.get("destination"):
             slots["destination"] = ride_slots["destination"]
         if ride_slots.get("pickup"):
@@ -767,16 +767,18 @@ def _resolve_pronoun_recipient(text_lower: str, room_id: str) -> Optional[str]:
 def _extract_amount(text: str) -> Optional[str]:
     patterns = [
         r'(\$[\d,]+(?:\.\d{1,2})?)',
-        r'(₹[\d,]+)',
+        r'(₹[\d,]+(?:\.\d{1,2})?)',
         r'(\d+(?:\.\d{1,2})?)\s*(?:dollars?|bucks?)',
-        r'(\d+(?:\.\d{1,2})?)\s*(?:rupees?)',
+        r'(\d+(?:\.\d{1,2})?)\s*(?:rupees?|rs\.?|inr)',
+        r'(\d+(?:\.\d{1,2})?)\s*(?:ringgit|rm|myr)',
         r'(\d+(?:\.\d{1,2})?)\s*\$',
+        r'(\d+(?:\.\d{1,2})?)\s*₹',
     ]
     for p in patterns:
         m = re.search(p, text, re.IGNORECASE)
         if m:
             val = m.group(0).strip()
-            if re.match(r'^\d', val) and 'dollar' not in val.lower() and 'buck' not in val.lower() and 'rupee' not in val.lower():
+            if re.match(r'^\d', val) and not re.search(r'(?:dollar|buck|rupee|rs\.?|inr|ringgit|rm|myr)', val, re.IGNORECASE):
                 val = '$' + val
             return val
     number_words = {
@@ -784,7 +786,7 @@ def _extract_amount(text: str) -> Optional[str]:
         "hundred": "100", "thousand": "1000", "five": "5", "fifteen": "15",
     }
     for word, num in number_words.items():
-        if re.search(r'\b' + word + r'\s*(dollars?|bucks?)\b', text.lower()):
+        if re.search(r'\b' + word + r'\s*(?:dollars?|bucks?|rupees?|rs\.?|ringgit|rm)\b', text.lower()):
             return f"${num}"
     # Bare number in money context — "front me 50", "sent me the 30"
     m = re.search(
@@ -828,13 +830,19 @@ def _extract_time(text_lower: str, intents: list = None) -> Optional[dict]:
     return components[0]
 
 
-def _extract_ride_slots(text: str) -> dict:
+def _extract_ride_slots(text: str, prev_messages: list = None) -> dict:
     """Extract pickup and destination from ride/travel messages using dependency parsing."""
     doc = _nlp(text)
     result = {}
     _NOISE = {"me", "us", "it", "that", "this", "one", "uber", "lyft", "cab", "ride",
-              "taxi", "car", "a ride", "a cab", "a taxi", "an uber", "a lyft"}
+              "taxi", "car", "a ride", "a cab", "a taxi", "an uber", "a lyft",
+              "book", "get", "grab", "take", "need", "want", "bro", "yo", "hey",
+              "ola", "grab", "gojek", "auto"}
     _TIME_PREPS = {"by", "before", "after", "around", "at"}
+    _VAGUE_PLACES = {"your place", "my place", "his place", "her place", "their place",
+                     "your house", "my house", "his house", "her house", "their house",
+                     "your apartment", "my apartment", "there", "here", "that place",
+                     "your spot", "the spot", "the place"}
 
     from_phrases = []
     to_phrases = []
@@ -897,12 +905,78 @@ def _extract_ride_slots(text: str) -> dict:
     if from_phrases:
         result["pickup"] = clean_phrase(from_phrases[0])
 
+    # Fallback: "X to Y" pattern without "from" — proper noun before "to" is pickup
+    if "pickup" not in result and to_phrases:
+        to_token = next((t for t in doc if t.text.lower() == "to" and t.dep_ == "prep"), None)
+        if to_token:
+            before_to = [t for t in doc if t.i < to_token.i and t.pos_ == "PROPN"
+                         and t.text.lower() not in _NOISE and len(t.text) > 2]
+            if before_to:
+                propns = []
+                for t in before_to:
+                    if propns and t.i == propns[-1].i + 1:
+                        propns.append(t)
+                    else:
+                        propns = [t]
+                pickup_phrase = " ".join(t.text for t in propns).strip()
+                if pickup_phrase.lower() not in _NOISE:
+                    result["pickup"] = clean_phrase(pickup_phrase)
+
     # Fallback: if no destination found but "home" is mentioned with movement verb
     if "destination" not in result:
         if re.search(r'\bhome\b', text.lower()) and re.search(r'\b(?:get|go|take|drop|ride|back|head)\b', text.lower()):
             result["destination"] = "home"
 
+    # If destination is a vague reference, try to resolve from context
+    dest = result.get("destination", "").lower().strip()
+    if dest in _VAGUE_PLACES and prev_messages:
+        resolved = _resolve_place_from_context(prev_messages)
+        if resolved:
+            result["destination"] = resolved
+        else:
+            del result["destination"]
+
+    pickup = result.get("pickup", "").lower().strip()
+    if pickup in _VAGUE_PLACES and prev_messages:
+        resolved = _resolve_place_from_context(prev_messages)
+        if resolved:
+            result["pickup"] = resolved
+        else:
+            del result["pickup"]
+
     return result
+
+
+def _resolve_place_from_context(prev_messages: list) -> str | None:
+    """Scan recent context messages for a real address or place name."""
+    # Look in reverse order (most recent first)
+    for msg in reversed(prev_messages):
+        # Street address pattern: number + street name
+        addr = re.search(
+            r'\b(\d{1,5}\s+[\w\s]+?(?:street|st|avenue|ave|road|rd|drive|dr|boulevard|blvd|lane|ln|way|place|pl|court|ct|circle|cir|parkway|pkwy)(?:\s+\w+)?)\b',
+            msg, re.IGNORECASE
+        )
+        if addr:
+            return addr.group(1).strip().title()
+
+        # Named places: "the airport", "downtown", "mall", specific names with caps
+        place = re.search(
+            r'\b(?:the\s+)?(airport|station|mall|hospital|university|campus|office|gym|library|hotel|restaurant|club|bar|park|beach|terminal)\b',
+            msg, re.IGNORECASE
+        )
+        if place:
+            return place.group(0).strip().title()
+
+        # Capitalized multi-word proper nouns (likely place names)
+        proper = re.findall(r'(?<!\.\s)(?:^|\s)([A-Z][a-z]+(?:\s+[A-Z][a-z]+)+)', msg)
+        if proper:
+            candidate = proper[-1].strip()
+            skip = {"Let Me", "I Am", "I Was", "Do You", "Can You", "What Is",
+                    "How Are", "Oh My", "Thank You", "No Way"}
+            if candidate not in skip and len(candidate) > 4:
+                return candidate
+
+    return None
 
 
 def _extract_food(text_lower: str) -> Optional[dict]:
@@ -1295,10 +1369,15 @@ _META_STATEMENT_PATTERNS = [
 ]
 
 
-def full_pipeline(text: str, room_id: str = None) -> dict:
+def full_pipeline(text: str, room_id: str = None, context: list = None) -> dict:
     """Run the complete detection pipeline: model (with context) → keywords → suppression → slots → lifecycle."""
     # Phase 1a: Model inference with conversation context (up to 3 previous messages)
-    prev_messages = conversation_ctx.get_prev_messages(room_id) if room_id else None
+    # If caller passes context (string array from Phoenix), use it directly;
+    # otherwise fall back to internal conversation tracking.
+    if context is not None:
+        prev_messages = context[-3:] if context else []
+    else:
+        prev_messages = conversation_ctx.get_prev_messages(room_id) if room_id else None
     result = run_inference(text, prev_messages=prev_messages)
     result["_text"] = text
     if prev_messages:
@@ -1353,8 +1432,8 @@ def full_pipeline(text: str, room_id: str = None) -> dict:
     # Phase 1c4b: Amount cap — amounts above $5000 in casual chat aren't real payment requests
     _MONEY_CAP = 5000
     if "money" in result["intents"]:
-        amounts = re.findall(r'\$\s*([\d,]+(?:\.\d+)?)', tl)
-        amounts += re.findall(r'([\d,]+(?:\.\d+)?)\s*(?:dollars?|bucks?|rupees?|rs\.?|inr)\b', tl)
+        amounts = re.findall(r'[\$₹]\s*([\d,]+(?:\.\d+)?)', tl)
+        amounts += re.findall(r'([\d,]+(?:\.\d+)?)\s*(?:dollars?|bucks?|rupees?|rs\.?|inr|ringgit|rm|myr)\b', tl)
         amounts += re.findall(r'\b(?:send|pay|transfer|venmo|cashapp|zelle)\s+(?:me\s+)?(?:\w+\s+)?([\d,]+)\b', tl)
         parsed = []
         for a in amounts:
@@ -1459,9 +1538,11 @@ def full_pipeline(text: str, room_id: str = None) -> dict:
         result["target"] = detect_target(text, result["intents"], result.get("money"))
 
     # Phase 3: Slot extraction
-    slots = extract_slots(text, result["intents"], room_id=room_id)
+    slots = extract_slots(text, result["intents"], room_id=room_id, prev_messages=prev_messages)
     if slots:
         result["slots"] = slots
+        if result.get("money") and not result["money"].get("detected_amount") and slots.get("amount"):
+            result["money"]["detected_amount"] = slots["amount"]
 
     # Phase 4: Lifecycle (cancel/defer/confirm)
     if room_id:
@@ -1476,6 +1557,9 @@ def full_pipeline(text: str, room_id: str = None) -> dict:
         if guardrails.get("blocked"):
             result["intents"] = []
             result["money"] = None
+            result["slots"] = None
+            result["target"] = None
+            result["context_boosted"] = None
 
     # Clean internal fields
     result.pop("_text", None)
@@ -1486,8 +1570,10 @@ def full_pipeline(text: str, room_id: str = None) -> dict:
 class DetectRequest(BaseModel):
     text: str
     chat_id: Optional[str] = None
+    room_id: Optional[str] = None
     message_id: Optional[str] = None
     sender: Optional[str] = None
+    context: Optional[list] = None
 
 
 class DetectResponse(BaseModel):
@@ -1528,7 +1614,8 @@ async def detect(req: DetectRequest):
     if model_state["model"] is None:
         raise HTTPException(status_code=503, detail="Model not loaded")
 
-    result = full_pipeline(req.text, room_id=req.chat_id)
+    rid = req.room_id or req.chat_id
+    result = full_pipeline(req.text, room_id=rid, context=req.context)
     return DetectResponse(
         **{k: v for k, v in result.items() if k in DetectResponse.model_fields},
         chat_id=req.chat_id,
@@ -1565,7 +1652,9 @@ async def ws_detect(websocket: WebSocket):
                 await websocket.send_text(json.dumps({"error": "text required"}))
                 continue
 
-            result = full_pipeline(text, room_id=msg.get("chat_id"))
+            rid = msg.get("room_id") or msg.get("chat_id")
+            ctx = msg.get("context")
+            result = full_pipeline(text, room_id=rid, context=ctx)
 
             response = {
                 **msg,
@@ -1574,8 +1663,10 @@ async def ws_detect(websocket: WebSocket):
                     "scores":          result["scores"],
                     "money":           result.get("money"),
                     "slots":           result.get("slots"),
+                    "target":          result.get("target"),
                     "context_boosted": result.get("context_boosted"),
                     "lifecycle":       result.get("lifecycle"),
+                    "guardrails":      result.get("guardrails"),
                     "latency_ms":      result["latency_ms"],
                 }
             }
@@ -1827,6 +1918,8 @@ async def meta():
 # ── Team Chat (chat.html-compatible WebSocket) ──
 # Separate room state so the old /ws/chat endpoint stays untouched
 team_rooms: dict[str, dict] = {}  # room_id -> {users: {ws: name}, history: []}
+_popup_cooldowns: dict[str, dict[str, float]] = {}  # room_id -> {intent: last_popup_ts}
+POPUP_COOLDOWN_SECS = 30
 
 def _team_room(room_id: str) -> dict:
     if room_id not in team_rooms:
@@ -1863,19 +1956,17 @@ def _presence_frame(room_id: str, joined: str = None, left: str = None) -> dict:
 
 _INTENT_SLOT_MAP = {
     "money":      {"recipient", "amount", "note"},
-    "ride":       {"destination", "time"},
-    "travel":     {"destination", "time"},
+    "ride":       {"destination", "pickup", "time"},
+    "travel":     {"destination", "pickup", "time"},
     "food_order": {"food", "time"},
-    "contact":    {"recipient", "time", "phone"},
+    "contact":    {"recipient", "phone", "time"},
     "alarm":      {"time"},
     "reminder":   {"task", "time"},
-    "calendar":   {"time"},
-    "bills":      {"amount", "recipient"},
+    "calendar":   {"event", "time"},
+    "bills":      {"bill_name", "amount"},
 }
 _REQUIRED_SLOTS = {
     "money": {"amount"},
-    "ride":  {"destination"},
-    "contact": {"recipient"},
 }
 
 
@@ -1896,12 +1987,13 @@ def _nest_slots(flat_slots: dict, fired: list) -> dict:
     return nested if nested else None
 
 
-def _pipeline_to_msg(text: str, sender: str, result: dict) -> dict:
+def _pipeline_to_msg(text: str, sender: str, result: dict, room_id: str = None) -> dict:
     """Map full_pipeline() output to the frame chat.html expects."""
     fired = result.get("intents", [])
     scores = result.get("scores", {})
     flat_slots = result.get("slots")
     lifecycle = result.get("lifecycle")
+    target = result.get("target") or {}
 
     nested_slots = _nest_slots(flat_slots, fired) if flat_slots else None
 
@@ -1917,6 +2009,14 @@ def _pipeline_to_msg(text: str, sender: str, result: dict) -> dict:
             if items:
                 pir_changes[key] = items if isinstance(items, list) else [items]
 
+    now = time.time()
+    room_cd = _popup_cooldowns.setdefault(room_id or "_", {})
+    should_popup = []
+    for intent in fired:
+        if now - room_cd.get(intent, 0) > POPUP_COOLDOWN_SECS:
+            should_popup.append(intent)
+            room_cd[intent] = now
+
     return {
         "type": "msg",
         "sender": sender,
@@ -1924,9 +2024,10 @@ def _pipeline_to_msg(text: str, sender: str, result: dict) -> dict:
         "fired": fired,
         "slots": nested_slots,
         "needs_clarification": result.get("needs_clarification", []),
-        "should_popup": bool(fired),
-        "ui_active": bool(fired),
+        "should_popup": should_popup,
+        "ui_active": list(fired),
         "triggered": bool(fired),
+        "target": target,
         "pir_changes": pir_changes,
         "pir_alive": [],
         "top_scores": top_scores,
@@ -1969,11 +2070,11 @@ async def ws_team_chat(websocket: WebSocket, room_id: str, user_name: str):
                     continue
 
                 result = full_pipeline(text, room_id=room_id)
-                frame = _pipeline_to_msg(text, user_name, result)
+                frame = _pipeline_to_msg(text, user_name, result, room_id=room_id)
 
                 room["history"].append(frame)
-                if len(room["history"]) > 200:
-                    room["history"] = room["history"][-200:]
+                if len(room["history"]) > 1000:
+                    room["history"] = room["history"][-1000:]
 
                 await _team_broadcast(room_id, frame)
 
