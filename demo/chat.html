@@ -931,8 +931,18 @@ function renderMsg(m) {
   row.appendChild(bubble);
 
   // ─── model annotation block ───
-  // Both users see annotations — the receiver needs to see the action card
-  // (e.g. "send me 20" → Naveen sees the money card, he's the one who pays)
+  // Targeting: action cards only show to the right person
+  //   "sender"  → only the sender sees action card (self-directed: "remind me", "set alarm")
+  //   "others"  → everyone EXCEPT sender sees action card ("venmo me 20" → other person pays)
+  //   "group"   → everyone sees action card ("split the bill")
+  // Detection annotations (chips, slots, scores) always visible for debugging
+  const target = m.target || {};
+  const showTo = target.show_to || "sender";
+  const iAmSender = m.sender === state.you;
+  let showActionCard = true;
+  if (showTo === "sender") showActionCard = iAmSender;
+  else if (showTo === "others") showActionCard = !iAmSender;
+
   const wasTriggered = m.triggered !== false;
   if (wasTriggered && (m.fired && m.fired.length || (m.top_scores && m.top_scores.length))) {
     const anno = document.createElement("div");
@@ -965,6 +975,15 @@ function renderMsg(m) {
     }
     anno.appendChild(chipRow);
 
+    // targeting badge
+    if (m.fired.length && target.show_to) {
+      const tBadge = document.createElement("div");
+      tBadge.style.cssText = "font-size:11px;color:var(--muted);margin:2px 0 4px;";
+      const arrow = showTo === "sender" ? "→ sender" : showTo === "others" ? "→ other person" : "→ everyone";
+      tBadge.textContent = `target: ${arrow}`;
+      anno.appendChild(tBadge);
+    }
+
     // slots
     if (m.fired.length && m.slots) {
       const slotsList = renderSlots(m.fired, m.slots);
@@ -982,8 +1001,8 @@ function renderMsg(m) {
       anno.appendChild(cBox);
     }
 
-    // action card preview (only when required slots are filled)
-    if (m.fired.length && m.slots) {
+    // action card preview (only shown to target person, when required slots are filled)
+    if (showActionCard && m.fired.length && m.slots) {
       const ready = m.fired.filter(f => m.slots[f] && m.slots[f]._required_filled);
       for (const intent of ready) {
         const info = INTENT_INFO[intent] || { ico: "•", verb: intent };
@@ -1098,45 +1117,27 @@ function summarizeForAction(intent, slots) {
       ].filter(Boolean).join(" ");
     case "alarm":
       return [
-        slots.note,
-        slots.datetime ? "@ " + formatSlotValue("datetime", slots.datetime) : "",
+        slots.time ? "@ " + formatSlotValue("time", typeof slots.time === "object" ? slots.time.value : slots.time) : "",
       ].filter(Boolean).join(" ");
     case "contact":
-      return [slots.channel || "call", slots.name].filter(Boolean).join(" ");
+      return [slots.recipient, slots.phone ? `· ${slots.phone}` : ""].filter(Boolean).join(" ");
     case "calendar":
       return [
-        slots.title,
-        slots.with_who ? `with ${slots.with_who}` : "",
-        slots.location ? `@ ${slots.location}` : "",
-        slots.datetime ? `· ${formatSlotValue("datetime", slots.datetime)}` : "",
+        slots.event,
+        slots.time ? `· ${formatSlotValue("time", typeof slots.time === "object" ? slots.time.value : slots.time)}` : "",
       ].filter(Boolean).join(" ");
     case "ride":
-    case "maps":
-      return [slots.service || slots.mode || "", slots.destination ? `→ ${slots.destination}` : "", slots.when ? `@ ${formatSlotValue("when", slots.when)}` : ""].filter(Boolean).join(" ");
-    case "food_order":
-      return [slots.provider || "", slots.item ? `· ${slots.item}` : "", slots.when ? `· ${formatSlotValue("when", slots.when)}` : ""].filter(Boolean).join(" ");
+      return [slots.pickup ? `${slots.pickup} →` : "", slots.destination || "", slots.time ? `· ${formatSlotValue("time", typeof slots.time === "object" ? slots.time.value : slots.time)}` : ""].filter(Boolean).join(" ");
+    case "food_order": {
+      const food = slots.food || {};
+      return [food.food_item || food.restaurant || "", slots.time ? `· ${formatSlotValue("time", typeof slots.time === "object" ? slots.time.value : slots.time)}` : ""].filter(Boolean).join(" ");
+    }
     case "travel":
-      return [slots.mode || "flight", slots.destination ? `→ ${slots.destination}` : "", slots.when ? `· ${formatSlotValue("when", slots.when)}` : ""].filter(Boolean).join(" ");
-    case "shopping":
-      return [slots.qty ? `${slots.qty}×` : "", slots.item || "", slots.provider ? `on ${slots.provider}` : ""].filter(Boolean).join(" ");
-    case "music":
-      return [slots.song, slots.artist ? `by ${slots.artist}` : "", slots.provider ? `on ${slots.provider}` : ""].filter(Boolean).join(" ");
-    case "video":
-      return [slots.title, slots.provider ? `on ${slots.provider}` : ""].filter(Boolean).join(" ");
-    case "tickets":
-      return [slots.event, slots.qty ? `· ${slots.qty} seats` : ""].filter(Boolean).join(" ");
-    case "reservation":
-      return [slots.place, slots.qty ? `· ${slots.qty} ppl` : "", slots.when ? `· ${formatSlotValue("when", slots.when)}` : ""].filter(Boolean).join(" ");
+      return [slots.pickup ? `${slots.pickup} →` : "", slots.destination || "", slots.time ? `· ${formatSlotValue("time", typeof slots.time === "object" ? slots.time.value : slots.time)}` : ""].filter(Boolean).join(" ");
     case "bills":
-      return [slots.bill_kind, slots.amount ? `$${slots.amount}` : "", slots.due ? `· due ${formatSlotValue("due", slots.due)}` : ""].filter(Boolean).join(" ");
-    case "health":
-      return [slots.provider, slots.kind, slots.when ? `· ${formatSlotValue("when", slots.when)}` : ""].filter(Boolean).join(" ");
-    case "weather":
-      return [slots.place, slots.when ? `· ${formatSlotValue("when", slots.when)}` : ""].filter(Boolean).join(" ");
-    case "task":
-      return [slots.action, slots.when ? `· ${formatSlotValue("when", slots.when)}` : ""].filter(Boolean).join(" ");
-    case "note":
-      return slots.body || "";
+      return [slots.bill_name, slots.amount ? `· $${slots.amount}` : ""].filter(Boolean).join(" ");
+    case "reminder":
+      return [slots.task, slots.time ? `· ${formatSlotValue("time", typeof slots.time === "object" ? slots.time.value : slots.time)}` : ""].filter(Boolean).join(" ");
   }
   return "";
 }
